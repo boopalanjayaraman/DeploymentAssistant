@@ -6,87 +6,16 @@ using System.Text;
 
 namespace DeploymentAssistant.Common
 {
+    /// <summary>
+    /// Contains some helper extension methods 
+    /// </summary>
     public static class ExtensionMethods
     {
-        const string AppString = "[DeploymentAssistant]: ";
-
-        public static string SurroundLines(this string inputString)
-        {
-            if (string.IsNullOrEmpty(inputString))
-            {
-                return inputString;
-            }
-            StringBuilder builder = new StringBuilder();
-            builder.Append(AppString);
-            builder.Append(inputString);
-            builder.Append("\r\n");
-
-            return builder.ToString();
-        }
-
-        public static bool Compare(this string inputString, string compareString)
-        {
-            if (string.Equals(inputString.Replace(" ", ""), compareString.Replace(" ", ""), StringComparison.InvariantCultureIgnoreCase))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static string ConvertToString(this object inputObject)
-        {
-            if (inputObject == null)
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return inputObject.ToString();
-            }
-        }
-
-        public static double ToDouble(this object inputObject)
-        {
-            IConvertible convert = inputObject as IConvertible;
-            if (convert != null && convert != DBNull.Value)
-            {
-                return convert.ToDouble(null);
-            }
-            else
-            {
-                return 0d;
-            }
-        }
-
-        public static int ToInt(this object inputObject)
-        {
-            IConvertible convert = inputObject as IConvertible;
-            if (convert != null && convert != DBNull.Value)
-            {
-                return convert.ToInt32(null);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static long ToLong(this object inputObject)
-        {
-            IConvertible convert = inputObject as IConvertible;
-            if (convert != null && convert != DBNull.Value)
-            {
-                return convert.ToInt64(null);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
+        /// <summary>
+        /// Converts a string value to boolean
+        /// </summary>
+        /// <param name="inputString">input string</param>
+        /// <returns></returns>
         public static bool ToBoolean(this string inputString)
         {
             if (string.IsNullOrEmpty(inputString))
@@ -102,13 +31,6 @@ namespace DeploymentAssistant.Common
             return false;
         }
 
-        public static void AddRange(this Hashtable src, Hashtable newRange)
-        {
-            foreach (DictionaryEntry item in newRange)
-            {
-                src.Add(item.Key, item.Value);
-            }
-        }
 
         /// <summary>
         /// Compares if the dictionary is same as the target. Check with every key and value combination in the dictionary
@@ -134,22 +56,11 @@ namespace DeploymentAssistant.Common
             return true;
         }
 
-        public static DateTime ToEst(this DateTime utcTime)
-        {
-            DateTime estTime = DateTime.Now;
-
-            try
-            {
-                TimeZoneInfo estZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-                estTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, estZone);
-            }
-            catch (Exception exception)
-            {
-                //Logging.LogException(TypeName, exception.Message, exception);
-            }
-            return estTime;
-        }
-
+        /// <summary>
+        /// Converts the object into a json string
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string ToJson(this object input)
         {
             if (input != null)

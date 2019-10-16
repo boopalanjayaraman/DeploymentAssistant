@@ -28,16 +28,24 @@ namespace DeploymentAssistant.Models
         public ExecutionType Operation { get; set; }
 
         /// <summary>
-        /// If more than one HostInfo object is present in this list,
-        /// the whole pipeline will be repeated for each host 
+        /// HostInfo for executing the operation
         /// </summary>
-        public List<HostInfo> Hosts { get; set; }
+        public HostInfo Host { get; set; }
 
         /// <summary>
-        /// If true, pipeline execution continues even though there may be an exception in the step
+        /// If true, pipeline execution continues even though there may be an exception / failure in the step
         /// default : false
         /// </summary>
-        public bool ContinueOnException { get; set; }
+        public bool ContinueOnFailure { get; set; }
+
+        /// <summary>
+        /// Validates self and returns a boolean
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool IsValid()
+        {
+            return true;
+        }
 
         public ExecutionActivity()
         {

@@ -37,5 +37,17 @@ namespace DeploymentAssistant.Models
         {
 
         }
+
+        /// <summary>
+        /// Self validating function
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(SiteName)
+                && !string.IsNullOrWhiteSpace(PhysicalPath)
+                && Bindings != null
+                && Bindings.Count > 0;
+        }
     }
 }

@@ -9,9 +9,17 @@ namespace DeploymentAssistant.Models
     /// <summary>
     /// Activity representing a windows service stop
     /// </summary>
-    public class ServiceStopActivity : ExecutionActivity
+    public class StopServiceActivity : ExecutionActivity
     {
         public string ServiceName { get; set; }
 
+        /// <summary>
+        /// Self validating function
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(ServiceName);
+        }
     }
 }

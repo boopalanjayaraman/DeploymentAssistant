@@ -25,5 +25,14 @@ namespace DeploymentAssistant.Models
         {
 
         }
+
+        /// <summary>
+        /// Self validating function
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(Website);
+        }
     }
 }

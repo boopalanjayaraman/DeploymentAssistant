@@ -12,10 +12,24 @@ namespace DeploymentAssistant.Executors
     /// </summary>
     public interface IExecutor
     {
+        /// <summary>
+        /// Activity under context
+        /// </summary>
         ExecutionActivity Activity { get; }
 
+        /// <summary>
+        /// output of the execution step
+        /// </summary>
         ExecutionResult Result { get; }
 
+        /// <summary>
+        /// Executing method
+        /// </summary>
         void Execute();
+
+        /// <summary>
+        /// Verifying method - after the action has been done
+        /// </summary>
+        void Verify();
     }
 }

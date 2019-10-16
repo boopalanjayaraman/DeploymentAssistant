@@ -21,8 +21,27 @@ namespace DeploymentAssistant.Executors
         /// <summary>
         /// represents each step's result in the pipeline
         /// </summary>
-        List<ExecutionResult> results { get; }
+        List<ExecutionResult> Results { get; }
 
+        /// <summary>
+        /// event for each step starting to execute.
+        /// </summary>
+        event EventHandler StepStarted;
+
+        /// <summary>
+        /// event for each step completed
+        /// </summary>
+        event EventHandler StepCompleted;
+
+        /// <summary>
+        /// event for each step added
+        /// </summary>
+        event EventHandler StepAdded;
+
+        /// <summary>
+        /// Adding a step to pipeline
+        /// </summary>
+        /// <param name="step"></param>
         void Add(ExecutionActivity step);
 
         /// <summary>

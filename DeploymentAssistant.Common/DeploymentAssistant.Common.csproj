@@ -55,7 +55,6 @@
     <Compile Include="ConfigurationParser.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="PowerShellExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

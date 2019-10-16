@@ -27,5 +27,15 @@ namespace DeploymentAssistant.Models
         /// default:false
         /// </summary>
         public bool IsFile { get; set; }
+
+        /// <summary>
+        /// Self validating function
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(SourcePath)
+                && !string.IsNullOrWhiteSpace(TargetPath);
+        }
     }
 }
