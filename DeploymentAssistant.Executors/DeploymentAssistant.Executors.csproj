@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="AbstractExecutor.cs" />
     <Compile Include="ActivityEventArgs.cs" />
+    <Compile Include="CopyFilesExecutor.cs" />
     <Compile Include="ExecutionPipeline.cs" />
     <Compile Include="ExecutorFactory.cs" />
     <Compile Include="IExecutor.cs" />
@@ -66,6 +67,10 @@
       <Project>{71e4c09f-c10e-43bd-843a-d20d04692f2d}</Project>
       <Name>DeploymentAssistant.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\CopyFiles.ps1" />
+    <None Include="Scripts\MoveFiles.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

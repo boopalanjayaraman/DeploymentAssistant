@@ -23,6 +23,23 @@ namespace DeploymentAssistant.Models
         public string TargetPath { get; set; }
 
         /// <summary>
+        /// Exclude these Folders under the source path from copying 
+        /// Should use a preceding backslash
+        /// </summary>
+        public List<string> SkipFolders { get; set; }
+
+        /// <summary>
+        /// Exclude these folders under the source path from copying if they exist already in the target path. Copy otherwise.
+        /// Should use a preceding backslash
+        /// </summary>
+        public List<string> SkipFoldersIfExist { get; set; }
+
+        /// <summary>
+        /// Exclude files with these extensions from copying. Ex. ".pdb", ".csproj"
+        /// </summary>
+        public List<string> ExcludeExtensions { get; set; }
+
+        /// <summary>
         /// Says if the copy activity is being done for a file rather than a folder. 
         /// default:false
         /// </summary>

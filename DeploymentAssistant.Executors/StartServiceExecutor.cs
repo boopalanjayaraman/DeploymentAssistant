@@ -28,7 +28,7 @@ namespace DeploymentAssistant.Executors
         {
             logger.Info("Service Start - Activity Execution Started.");
             var activity = this.Activity as StartServiceActivity;
-            var remoteComputerName = string.IsNullOrWhiteSpace(activity.Host.HostName) ? activity.Host.Ip : string.Empty;
+            var remoteComputerName = activity.Host.HostName;
             logger.Info(string.Format("Remote Computer Name: {0}", remoteComputerName));
             if (string.IsNullOrWhiteSpace(remoteComputerName))
             {
@@ -36,10 +36,6 @@ namespace DeploymentAssistant.Executors
             }
             //// start the service through command
             StartService(activity, remoteComputerName);
-            if (quitExecuting)
-            {
-                return;
-            }
         }
 
         /// <summary>
@@ -49,7 +45,7 @@ namespace DeploymentAssistant.Executors
         {
             logger.Info("Service Start - Activity Verification Started.");
             var activity = this.Activity as StartServiceActivity;
-            var remoteComputerName = string.IsNullOrWhiteSpace(activity.Host.HostName) ? activity.Host.Ip : string.Empty;
+            var remoteComputerName = activity.Host.HostName;
             //// verify the status of the service
             string status = VerifyService(activity, remoteComputerName);
             if (quitExecuting)

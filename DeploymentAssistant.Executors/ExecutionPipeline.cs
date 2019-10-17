@@ -49,6 +49,17 @@ namespace DeploymentAssistant.Executors
         public event EventHandler StepStarted;
 
         /// <summary>
+        /// constructor
+        /// </summary>
+        public ExecutionPipeline()
+        {
+            if (this.Steps == null)
+            {
+                this.Steps = new List<ExecutionActivity>();
+            }
+        }
+
+        /// <summary>
         /// Adding a step to pipeline
         /// </summary>
         /// <param name="step"></param>
@@ -74,8 +85,7 @@ namespace DeploymentAssistant.Executors
                 throw new ApplicationException("Pipeline Validation Failure: Activity is null.");
             }
             logger.InfoFormat("Validating step: {0}", step.ToJson());
-            if (string.IsNullOrWhiteSpace(step.Host.HostName)
-                && string.IsNullOrWhiteSpace(step.Host.Ip))
+            if (string.IsNullOrWhiteSpace(step.Host.HostName))
             {
                 throw new ApplicationException("Pipeline Validation Failure: Host details are unavailable.");
             }

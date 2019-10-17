@@ -11,9 +11,10 @@ namespace DeploymentAssistant.Models
     /// </summary>
     public class HostInfo
     {
+        /// <summary>
+        /// Can mention either hostname of the computer or IP
+        /// </summary>
         public string HostName { get; set; }
-
-        public string Ip { get; set; }
 
         public string Port { get; set; }
     }
