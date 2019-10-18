@@ -2,16 +2,22 @@ function CopyFiles()
 {
 	param([String]$sourcePath, [String]$destinationPath, [System.Collections.Generic.List[String]]$excludeExtensions, [System.Collections.Generic.List[String]]$skipFolders, [System.Collections.Generic.List[String]]$skipFoldersIfExist)
 
+    $sourceInfo = (Get-Item $sourcePath)
+    $isFile = $sourceInfo -is [System.IO.FileInfo]
+    #if source is a file, then copy the file alone.
+    if($isFile)
+    {
+        [System.IO.File]::Copy($sourcePath, $destinationPath, $true)
+        return 1
+    }
+
 	$sourceItems = (Get-ChildItem -Path $sourcePath -Recurse).FullName
-	
 	#validate the items
 	if($sourceItems.Count -eq 0)
 	{
-		return
-	}
-
+		return 0
+    }
     $count = 0
-
 	#perform copy action one by one
 	Foreach ($item in $sourceItems)
 	{
