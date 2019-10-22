@@ -2,11 +2,17 @@ function DeleteFiles()
 {
 	param([String]$targetPath)
 
-	$targetInfo = (Get-Item $targetPath)
+    $targetInfo = (Get-Item $targetPath -ErrorAction SilentlyContinue)
+     #check if source path exists
+     if($targetInfo.Count -eq 0)
+     {
+         return 0
+     }
+
     $isFile = $targetInfo -is [System.IO.FileInfo]
     if($isFile)
     {
-        [System.IO.File]::De($targetPath)
+        [System.IO.File]::Delete($targetPath)
         return 1
     }
     else

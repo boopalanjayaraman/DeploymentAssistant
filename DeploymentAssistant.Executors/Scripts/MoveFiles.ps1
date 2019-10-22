@@ -2,7 +2,13 @@ function MoveFiles()
 {
 	param([String]$sourcePath, [String]$destinationPath)
 
-    $sourceInfo = (Get-Item $sourcePath)
+    $sourceInfo = (Get-Item $sourcePath -ErrorAction SilentlyContinue)
+    #check if source path exists
+    if($sourceInfo.Count -eq 0)
+    {
+        return 0
+    }
+
     $isFile = $sourceInfo -is [System.IO.FileInfo]
     if($isFile)
     {

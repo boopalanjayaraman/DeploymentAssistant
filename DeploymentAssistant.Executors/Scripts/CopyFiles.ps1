@@ -2,7 +2,13 @@ function CopyFiles()
 {
 	param([String]$sourcePath, [String]$destinationPath, [System.Collections.Generic.List[String]]$excludeExtensions, [System.Collections.Generic.List[String]]$skipFolders, [System.Collections.Generic.List[String]]$skipFoldersIfExist)
 
-    $sourceInfo = (Get-Item $sourcePath)
+    $sourceInfo = (Get-Item $sourcePath -ErrorAction SilentlyContinue)
+    #check if source path exists
+    if($sourceInfo.Count -eq 0)
+    {
+        return 0
+    }
+
     $isFile = $sourceInfo -is [System.IO.FileInfo]
     #if source is a file, then copy the file alone.
     if($isFile)
