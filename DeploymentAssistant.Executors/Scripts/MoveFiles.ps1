@@ -1,3 +1,4 @@
+#Requires -Version 3.0
 function MoveFiles()
 {
 	param([String]$sourcePath, [String]$destinationPath)

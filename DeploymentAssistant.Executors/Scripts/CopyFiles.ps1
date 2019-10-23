@@ -1,3 +1,4 @@
+#Requires -Version 3.0
 function CopyFiles()
 {
 	param([String]$sourcePath, [String]$destinationPath, [System.Collections.Generic.List[String]]$excludeExtensions, [System.Collections.Generic.List[String]]$skipFolders, [System.Collections.Generic.List[String]]$skipFoldersIfExist)

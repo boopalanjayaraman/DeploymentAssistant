@@ -1,3 +1,4 @@
+#Requires -Version 3.0
 function GetFiles_Moved()
 {
 	param([String]$targetPath)

@@ -14,7 +14,7 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// Website Name
         /// </summary>
-        public string SiteName { get; set; }
+        public string WebsiteName { get; set; }
 
         /// <summary>
         /// Bindings
@@ -44,7 +44,7 @@ namespace DeploymentAssistant.Models
         /// <returns></returns>
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(SiteName)
+            return !string.IsNullOrWhiteSpace(WebsiteName)
                 && !string.IsNullOrWhiteSpace(PhysicalPath)
                 && Bindings != null
                 && Bindings.Count > 0;

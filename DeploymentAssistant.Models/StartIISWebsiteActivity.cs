@@ -14,7 +14,7 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// Name of the website
         /// </summary>
-        public string Website { get; set; }
+        public string WebsiteName { get; set; }
 
         /// <summary>
         /// Port number
@@ -32,7 +32,7 @@ namespace DeploymentAssistant.Models
         /// <returns></returns>
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(Website);
+            return !string.IsNullOrWhiteSpace(WebsiteName);
         }
     }
 }

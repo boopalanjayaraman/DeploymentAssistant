@@ -31,6 +31,16 @@ namespace DeploymentAssistant.Models
         /// </summary>
         public string CertificateThumbprint { get; set; }
 
+        /// <summary>
+        /// Website Name to which ssl certificate is going to be attached to
+        /// </summary>
+        public string WebsiteName { get; set; }
+
+        /// <summary>
+        /// SSL Port of website
+        /// </summary>
+        public string Port { get; set; }
+
         public AddSslCertificateActivity()
         {
 
@@ -44,7 +54,8 @@ namespace DeploymentAssistant.Models
         {
             return !string.IsNullOrWhiteSpace(CertificateFilePath)
                 && !string.IsNullOrWhiteSpace(StoreName)
-                && !string.IsNullOrWhiteSpace(CertificateThumbprint);
+                && !string.IsNullOrWhiteSpace(CertificateThumbprint)
+                && !string.IsNullOrWhiteSpace(WebsiteName);
         }
     }
 }
