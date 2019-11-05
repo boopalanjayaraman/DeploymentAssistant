@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -69,8 +70,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AddSslCertificate.ps1" />
     <None Include="Scripts\CopyFiles.ps1" />
+    <None Include="Scripts\CreateWebsite.ps1" />
+    <None Include="Scripts\DeleteFiles.ps1" />
     <None Include="Scripts\MoveFiles.ps1" />
+    <None Include="Scripts\StartIISWebServer.ps1" />
+    <None Include="Scripts\StartIISWebsite.ps1" />
+    <None Include="Scripts\StartService.ps1" />
+    <None Include="Scripts\StopIISWebServer.ps1" />
+    <None Include="Scripts\StopIISWebSite.ps1" />
+    <None Include="Scripts\StopService.ps1" />
+    <None Include="Scripts\Verify_CreateWebsite.ps1" />
+    <None Include="Scripts\Verify_DeleteFiles.ps1" />
+    <None Include="Scripts\Verify_MoveFiles.ps1" />
+    <None Include="Scripts\Verify_StartIISWebsite.ps1" />
+    <None Include="Scripts\Verify_StartService.ps1" />
+    <None Include="Scripts\Verify_StopIISWebsite.ps1" />
+    <None Include="Scripts\Verify_StopService.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

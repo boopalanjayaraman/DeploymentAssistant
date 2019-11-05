@@ -8,25 +8,15 @@ namespace DeploymentAssistant.Common
 {
     public static class ConfigurationParser
     {
-        static string _authUserName = string.Empty;
-        static string _authPassword = string.Empty;
+        static string _executorConfigFile = string.Empty;
 
-        public static string GetAuthUserName()
+        public static string GetExecutorsConfigFile()
         {
-            if (string.IsNullOrWhiteSpace(_authUserName))
+            if (string.IsNullOrWhiteSpace(_executorConfigFile))
             {
-                _authUserName = ConfigurationManager.AppSettings["AuthUserName"];
+                _executorConfigFile = ConfigurationManager.AppSettings["ExecutorsConfigFile"];
             }
-            return _authUserName;
-        }
-
-        public static string GetAuthPassword()
-        {
-            if (string.IsNullOrWhiteSpace(_authPassword))
-            {
-                _authPassword = ConfigurationManager.AppSettings["AuthPassword"];
-            }
-            return _authPassword;
+            return _executorConfigFile;
         }
     }
 }
