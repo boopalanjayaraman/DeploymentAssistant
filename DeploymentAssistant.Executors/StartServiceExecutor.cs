@@ -29,13 +29,9 @@ namespace DeploymentAssistant.Executors
             logger.Info("Service Start - Activity Execution Started.");
             var activity = this.Activity as StartServiceActivity;
             var remoteComputerName = activity.Host.HostName;
-            logger.Info(string.Format("Remote Computer Name: {0}", remoteComputerName));
-            if (string.IsNullOrWhiteSpace(remoteComputerName))
-            {
-                return;
-            }
             //// start the service through command
             StartService(activity, remoteComputerName);
+            logger.Info("Service Start - Activity Execution Finished.");
         }
 
         /// <summary>
@@ -44,16 +40,19 @@ namespace DeploymentAssistant.Executors
         public override void Verify()
         {
             logger.Info("Service Start - Activity Verification Started.");
+            if (quitExecuting)
+            {
+                logger.Info("Service Start - Activity Verification skipped. QuitExecuting Flag is true.");
+                this.Result = new ExecutionResult();
+                return;
+            }
             var activity = this.Activity as StartServiceActivity;
             var remoteComputerName = activity.Host.HostName;
             //// verify the status of the service
             string status = VerifyService(activity, remoteComputerName);
-            if (quitExecuting)
-            {
-                return;
-            }
-            this.Result = new ExecutionResult() { IsSuccess = status.Equals(Constants.PowershellScripts.RunningStatus) };
-            logger.InfoFormat("Verification Info: {0}", this.Result.ToJson());
+
+            this.Result = new ExecutionResult() { IsSuccess = !status.Equals("0") };
+            logger.InfoFormat("Verification Finished. Result: {0}", this.Result.ToJson());
         }
 
         private string VerifyService(StartServiceActivity activity, string remoteComputerName)
@@ -61,12 +60,8 @@ namespace DeploymentAssistant.Executors
             var status = string.Empty;
             try
             {
-                var getServiceScripts = new List<string>
-                    {
-                        Constants.PowershellScripts.GetServiceFunction,
-                        string.Format(Constants.PowershellScripts.GetService, activity.ServiceName)
-                    };
-                status = _shellManager.GetValue(remoteComputerName, getServiceScripts, true);
+                var verifyStartServiceCallScript = string.Format(Constants.PowershellScripts.VerifyStartServiceCall, activity.ServiceName);
+                status = _shellManager.GetValue(remoteComputerName, new List<string> { this.ActivityScriptMap.VerificationScript, verifyStartServiceCallScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -81,8 +76,8 @@ namespace DeploymentAssistant.Executors
         {
             try
             {
-                var startServiceScript = string.Format(Constants.PowershellScripts.StartService, activity.ServiceName);
-                _shellManager.ExecuteCommands(remoteComputerName, new List<string> { startServiceScript }, true);
+                var startServiceCallScript = string.Format(Constants.PowershellScripts.StartServiceCall, activity.ServiceName);
+                _shellManager.ExecuteCommands(remoteComputerName, new List<string> { this.ActivityScriptMap.ExecutionScript, startServiceCallScript }, true);
             }
             catch (ApplicationException appEx)
             {

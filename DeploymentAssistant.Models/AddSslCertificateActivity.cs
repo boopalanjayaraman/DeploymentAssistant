@@ -41,6 +41,11 @@ namespace DeploymentAssistant.Models
         /// </summary>
         public string Port { get; set; }
 
+        /// <summary>
+        /// Binding IP value
+        /// </summary>
+        public string BindingIp { get; set; }
+
         public AddSslCertificateActivity()
         {
 
@@ -54,7 +59,6 @@ namespace DeploymentAssistant.Models
         {
             return !string.IsNullOrWhiteSpace(CertificateFilePath)
                 && !string.IsNullOrWhiteSpace(StoreName)
-                && !string.IsNullOrWhiteSpace(CertificateThumbprint)
                 && !string.IsNullOrWhiteSpace(WebsiteName);
         }
     }

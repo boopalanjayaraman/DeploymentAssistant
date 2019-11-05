@@ -9,20 +9,13 @@ namespace DeploymentAssistant.Common
     {
         public class PowershellScripts
         {
-            public const string StartService = @"Start-Service {0}";
-            public const string StopService = @"Stop-Service {0}";
-            public const string GetService = @"GetServiceStatus {0}";
-            public const string GetServiceFunction = @"
-            function GetServiceStatus()
-            {{
-                param([String]$serviceName)
+            public const string StartServiceCall = @"StartService {0}";
+            public const string StopServiceCall = @"StopService {0}";
 
-                $status = Get-Service $serviceName
-                return $status.Status
-            }}
-            ";
-            public const string RunningStatus = "Running";
-            public const string StoppedStatus = "Stopped";
+            public const string VerifyStartServiceCall = @"VerifyStartService {0}";
+            public const string VerifyStopServiceCall = @"VerifyStopService {0}";
+
+            public const string ScriptsFolder = "Scripts";
         } 
 
     }

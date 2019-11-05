@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AbstractExecutor.cs" />
     <Compile Include="ActivityEventArgs.cs" />
+    <Compile Include="ActivityScriptMapper.cs" />
     <Compile Include="CopyFilesExecutor.cs" />
     <Compile Include="ExecutionPipeline.cs" />
     <Compile Include="ExecutorFactory.cs" />
@@ -72,7 +73,7 @@
   <ItemGroup>
     <None Include="Scripts\AddSslCertificate.ps1" />
     <None Include="Scripts\CopyFiles.ps1" />
-    <None Include="Scripts\CreateWebsite.ps1" />
+    <None Include="Scripts\CreateIISWebsite.ps1" />
     <None Include="Scripts\DeleteFiles.ps1" />
     <None Include="Scripts\MoveFiles.ps1" />
     <None Include="Scripts\StartIISWebServer.ps1" />
@@ -81,7 +82,8 @@
     <None Include="Scripts\StopIISWebServer.ps1" />
     <None Include="Scripts\StopIISWebSite.ps1" />
     <None Include="Scripts\StopService.ps1" />
-    <None Include="Scripts\Verify_CreateWebsite.ps1" />
+    <None Include="Scripts\Verify_AddSslCertificate.ps1" />
+    <None Include="Scripts\Verify_CreateIISWebsite.ps1" />
     <None Include="Scripts\Verify_DeleteFiles.ps1" />
     <None Include="Scripts\Verify_MoveFiles.ps1" />
     <None Include="Scripts\Verify_StartIISWebsite.ps1" />

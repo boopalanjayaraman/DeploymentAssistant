@@ -6,10 +6,10 @@ function GetIISWebsite_Started()
     $state = (Get-WebSite -Name $website).State
     if($state -eq "Started")
     {
-        return $true
+        return 1
     }
     else
     {
-        return $false
+        return 0
     }
 } 

@@ -1,7 +1,9 @@
-﻿using DeploymentAssistant.Models;
+﻿using DeploymentAssistant.Common;
+using DeploymentAssistant.Models;
 using log4net;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,11 @@ namespace DeploymentAssistant.Executors
         /// Execution step's result
         /// </summary>
         public ExecutionResult Result { get; protected set; }
+
+        /// <summary>
+        /// Execution step's script (file/string) mapping
+        /// </summary>
+        public ActivityScriptMap ActivityScriptMap { get; protected set; }
 
         protected IShellManager _shellManager = null;
         protected ILog logger = null;
@@ -67,6 +74,19 @@ namespace DeploymentAssistant.Executors
         {
             this.Activity = activity;
             _shellManager = shellManager;
+
+            //// Get script for the activity through activity script provider
+            this.ActivityScriptMap = ActivityScriptProvider.GetActivityScriptMap(activity.Operation);
+            if(!string.IsNullOrWhiteSpace(this.ActivityScriptMap.ExecutionScriptFile))
+            {
+                var executionScript = File.ReadAllText(Path.Combine(Constants.PowershellScripts.ScriptsFolder, this.ActivityScriptMap.ExecutionScriptFile));
+                this.ActivityScriptMap.ExecutionScript = executionScript;
+            }
+            if (!string.IsNullOrWhiteSpace(this.ActivityScriptMap.VerificationScriptFile))
+            {
+                var verificationScript = File.ReadAllText(Path.Combine(Constants.PowershellScripts.ScriptsFolder, this.ActivityScriptMap.VerificationScriptFile));
+                this.ActivityScriptMap.VerificationScript = verificationScript;
+            }
         }
     }
 }

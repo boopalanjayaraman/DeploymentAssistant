@@ -6,10 +6,10 @@ function GetIISWebsite_Stopped()
     $state = (Get-WebSite -Name $website).State
     if($state -eq "Stopped")
     {
-        return $true
+        return 1
     }
     else
     {
-        return $false
+        return 0
     }
 } 

@@ -84,7 +84,7 @@ namespace DeploymentAssistant.Executors
             {
                 throw new ApplicationException("Pipeline Validation Failure: Activity is null.");
             }
-            logger.InfoFormat("Validating step: {0}", step.ToJson());
+            logger.InfoFormat("Validating step: {0}", step.Name);
             if (string.IsNullOrWhiteSpace(step.Host.HostName))
             {
                 throw new ApplicationException("Pipeline Validation Failure: Host details are unavailable.");
@@ -100,6 +100,7 @@ namespace DeploymentAssistant.Executors
             foreach (var activityStep in this.Steps)
             {
                 logger.InfoFormat("initiating step: {0}", activityStep.Name);
+                logger.InfoFormat("Activity Details: {0}", activityStep.ToJson());
                 var executor = ExecutorProvider.GetExecutor(activityStep);
                 //// publish event - for starting the step
                 StepStarted(this, new ActivityEventArgs() { Activity = activityStep });

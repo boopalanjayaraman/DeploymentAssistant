@@ -1,4 +1,5 @@
-﻿using DeploymentAssistant.Models;
+﻿using DeploymentAssistant.Common;
+using DeploymentAssistant.Models;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -20,26 +21,31 @@ namespace DeploymentAssistant.Executors
         }
 
         /// <summary>
-        /// Execute the step 
+        /// Execute step method
         /// </summary>
         public override void Execute()
         {
-            logger.Info("Copy files Activity Execution Started.");
+            logger.Info("Copy files - Activity Execution Started.");
             var activity = this.Activity as CopyFilesActivity;
-            var source = activity.Host.HostName;
-            logger.Info(string.Format("Remote Computer Name: {0}", source));
-            if (string.IsNullOrWhiteSpace(source))
-            {
-                return;
-            }
-
-            ////Copy the files
-            CopyFiles(activity, source);
+            var host = activity.Host.HostName;
+            //// Copy the files
+            CopyFiles(activity, host);
+            logger.Info("Service Start - Activity Execution Finished.");
         }
 
-        private void CopyFiles(CopyFilesActivity activity, string source)
+        private void CopyFiles(CopyFilesActivity activity, string host)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //// TODO: call execute commands with arguments (c# objects)
+                //var copyFilesScriptCall = string.Format(Constants.PowershellScripts.StopServiceCall, activity.);
+                //_shellManager.ExecuteCommands(host, new List<string> { this.ActivityScriptMap.ExecutionScript, copyFilesScriptCall }, true);
+            }
+            catch(ApplicationException appEx)
+            {
+                logger.Error(appEx.Message);
+                HandleException(appEx, activity);
+            }
         }
 
 

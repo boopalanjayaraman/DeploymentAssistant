@@ -1,15 +1,15 @@
 #Requires -Version 3.0
-function GetService_Started()
+function VerifyStartService()
 {
     param([String]$serviceName)
 
     $status = (Get-Service $serviceName).Status
     if($status -eq "Running")
     {
-        return $true
+        return 1
     }
     else
     {
-        return $false
+        return 0
     }
 }
