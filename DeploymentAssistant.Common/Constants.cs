@@ -11,6 +11,7 @@ namespace DeploymentAssistant.Common
         {
             public const string StartServiceCall = @"StartService {0}";
             public const string StopServiceCall = @"StopService {0}";
+            public const string CopyFilesCall = @"CopyFiles";
 
             public const string VerifyStartServiceCall = @"VerifyStartService {0}";
             public const string VerifyStopServiceCall = @"VerifyStopService {0}";

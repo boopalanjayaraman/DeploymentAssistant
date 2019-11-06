@@ -1,5 +1,5 @@
 #Requires -Version 3.0
-function GetIISWebsite_Started()
+function VerifyStartIISWebsite()
 {
 	param([String]$website)
 

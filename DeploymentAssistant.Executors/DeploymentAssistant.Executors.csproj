@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AbstractExecutor.cs" />
     <Compile Include="ActivityEventArgs.cs" />
+    <Compile Include="ActivityScriptMap.cs" />
     <Compile Include="ActivityScriptMapper.cs" />
     <Compile Include="CopyFilesExecutor.cs" />
     <Compile Include="ExecutionPipeline.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="IPipeline.cs" />
     <Compile Include="PowershellManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptWithParameters.cs" />
     <Compile Include="StartServiceExecutor.cs" />
     <Compile Include="StopServiceExecutor.cs" />
   </ItemGroup>

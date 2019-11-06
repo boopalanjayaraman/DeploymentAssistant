@@ -1,5 +1,5 @@
 #Requires -Version 3.0
-function GetWebSite_Created()
+function VerifyCreateIISWebsite()
  {
     param([String]$websiteName, [System.Collections.Generic.Dictionary[string, string]]$bindings, [String]$physicalPath, [Boolean]$override = $false)
 

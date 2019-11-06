@@ -15,13 +15,15 @@ namespace DeploymentAssistant.Executors
     /// <summary>
     /// Interface for shell manager
     /// </summary>
-    public interface IShellManager
+    internal interface IShellManager
     {
         void ExecuteCommands(string remoteComputer, List<string> commandScripts, bool throwEx = true);
 
         string GetValue(string remoteComputer, List<string> commandScripts, bool throwEx = true);
 
         Collection<object> GetObjects(string remoteComputer, params string[] commandScripts);
+
+        Collection<object> ExecuteCommands(string remoteComputer, List<ScriptWithParameters> commandScripts, bool throwEx = true);
     }
 
     /// <summary>
@@ -45,11 +47,7 @@ namespace DeploymentAssistant.Executors
         /// <param name="throwEx">if false, any exception will be just logged and not thrown</param>
         public void ExecuteCommands(string remoteComputer, List<string> commandScripts, bool throwEx = true)
         {
-            var connectionUri = new Uri(String.Format("http://{0}:5985/wsman", remoteComputer));
-            logger.InfoFormat("connection Uri: {0}. Establishing Connection.", connectionUri.ToString());
-            var connection = new WSManConnectionInfo(connectionUri);
-            connection.AuthenticationMechanism = AuthenticationMechanism.Default;
-            var runspace = RunspaceFactory.CreateRunspace(connection);
+            Runspace runspace = GetRunspace(remoteComputer);
             runspace.Open();
             using (var powershell = PowerShell.Create())
             {
@@ -64,6 +62,16 @@ namespace DeploymentAssistant.Executors
                 ThrowPSExecutionError(powershell);
                 runspace.Close();
             }
+        }
+
+        private Runspace GetRunspace(string remoteComputer)
+        {
+            var connectionUri = new Uri(String.Format("http://{0}:5985/wsman", remoteComputer));
+            logger.InfoFormat("connection Uri: {0}. Establishing Connection.", connectionUri.ToString());
+            var connection = new WSManConnectionInfo(connectionUri);
+            connection.AuthenticationMechanism = AuthenticationMechanism.Default;
+            var runspace = RunspaceFactory.CreateRunspace(connection);
+            return runspace;
         }
 
         private void ThrowPSExecutionError(PowerShell powershell, bool throwEx = true)
@@ -96,23 +104,19 @@ namespace DeploymentAssistant.Executors
         /// <returns></returns>
         public string GetValue(string remoteComputer, List<string> commandScripts, bool throwEx = true)
         {
-            var connectionUri = new Uri(String.Format("http://{0}:5985/wsman", remoteComputer));
-            logger.InfoFormat("connection Uri: {0}.Establishing connection.", connectionUri.ToString());
-            var connection = new WSManConnectionInfo(connectionUri);
-            connection.AuthenticationMechanism = AuthenticationMechanism.Default;
-            var runspace = RunspaceFactory.CreateRunspace(connection);
+            Runspace runspace = GetRunspace(remoteComputer);
             runspace.Open();
             var response = string.Empty;
             using (var powershell = PowerShell.Create())
             {
                 logger.Info("Adding scripts to the runspace.");
                 powershell.Runspace = runspace;
-                foreach(var commandScript in commandScripts)
+                foreach (var commandScript in commandScripts)
                 {
                     powershell.AddScript(commandScript);
                 }
                 var results = powershell.Invoke();
-                response = results[0].ToString();
+                response = results[0] != null ? results[0].ToString() : string.Empty;
                 logger.Info("Invoked the scripts. Response received.");
                 ThrowPSExecutionError(powershell, throwEx);
                 runspace.Close();
@@ -129,11 +133,7 @@ namespace DeploymentAssistant.Executors
         /// <returns></returns>
         public Collection<object> GetObjects(string remoteComputer, params string[] commandScripts)
         {
-            var connectionUri = new Uri(String.Format("http://{0}:5985/wsman", remoteComputer));
-            logger.InfoFormat("connection Uri: {0}. Establishing connection.", connectionUri.ToString());
-            var connection = new WSManConnectionInfo(connectionUri);
-            connection.AuthenticationMechanism = AuthenticationMechanism.Default;
-            var runspace = RunspaceFactory.CreateRunspace(connection);
+            Runspace runspace = GetRunspace(remoteComputer);
             runspace.Open();
             Collection<object> response = null;
             using (var powershell = PowerShell.Create())
@@ -145,12 +145,44 @@ namespace DeploymentAssistant.Executors
                     powershell.AddScript(commandScript);
                 }
                 var results = powershell.Invoke();
-                results.ToList().ForEach(pso => { response.Add(pso); });
+                results.ToList().ForEach(pso =>
+                {
+                    response.Add(pso);
+                });
                 logger.Info("Invoked the scripts. Response received.");
                 ThrowPSExecutionError(powershell, false);
                 runspace.Close();
             }
 
+            return response;
+        }
+
+        public Collection<object> ExecuteCommands(string remoteComputer, List<ScriptWithParameters> commandScripts, bool throwEx = true)
+        {
+            Runspace runspace = GetRunspace(remoteComputer);
+            runspace.Open();
+            Collection<object> response = null;
+            using (var powershell = PowerShell.Create())
+            {
+                logger.Info("Adding scripts to the runspace.");
+                powershell.Runspace = runspace;
+                foreach (var script in commandScripts)
+                {
+                    powershell.AddScript(script.Script);
+                    if((script.Params != null) && (script.Params.Count > 0))
+                    {
+                        powershell.AddParameters(script.Params);
+                    }
+                }
+                var results = powershell.Invoke();
+                results.ToList().ForEach(pso =>
+                {
+                    response.Add(pso);
+                });
+                logger.Info("Invoked the script(s).");
+                ThrowPSExecutionError(powershell);
+                runspace.Close();
+            }
             return response;
         }
     }

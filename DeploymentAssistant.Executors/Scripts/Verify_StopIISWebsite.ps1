@@ -1,5 +1,5 @@
 #Requires -Version 3.0
-function GetIISWebsite_Stopped()
+function VerifyStopIISWebsite()
 {
 	param([String]$website)
 

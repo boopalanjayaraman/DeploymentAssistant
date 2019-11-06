@@ -20,7 +20,7 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// Target path on the given hosts - will be appended to each host name in host info.
         /// </summary>
-        public string TargetPath { get; set; }
+        public string DestinationPath { get; set; }
 
         /// <summary>
         /// Exclude these Folders under the source path from copying 
@@ -52,7 +52,7 @@ namespace DeploymentAssistant.Models
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(SourcePath)
-                && !string.IsNullOrWhiteSpace(TargetPath);
+                && !string.IsNullOrWhiteSpace(DestinationPath);
         }
     }
 }
