@@ -25,7 +25,7 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// The type of operation / activity that is being done
         /// </summary>
-        public ExecutionType Operation { get; set; }
+        public ExecutionType Operation { get; protected set; }
 
         /// <summary>
         /// HostInfo for executing the operation

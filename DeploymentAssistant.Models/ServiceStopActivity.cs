@@ -21,5 +21,10 @@ namespace DeploymentAssistant.Models
         {
             return !string.IsNullOrWhiteSpace(ServiceName);
         }
+
+        public StopServiceActivity()
+        {
+            this.Operation = ExecutionType.StopService;
+        }
     }
 }

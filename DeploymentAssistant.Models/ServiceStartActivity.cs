@@ -21,5 +21,10 @@ namespace DeploymentAssistant.Models
         {
             return !string.IsNullOrWhiteSpace(ServiceName);
         }
+
+        public StartServiceActivity()
+        {
+            this.Operation = ExecutionType.StartService;
+        }
     }
 }

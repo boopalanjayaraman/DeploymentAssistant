@@ -47,6 +47,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeploymentAssistant.Common\DeploymentAssistant.Common.csproj">
+      <Project>{cd60ef05-8ee7-4c43-b115-83710627da27}</Project>
+      <Name>DeploymentAssistant.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeploymentAssistant.Executors\DeploymentAssistant.Executors.csproj">
+      <Project>{3fd3ca83-5271-462b-98a6-38fcc07a6746}</Project>
+      <Name>DeploymentAssistant.Executors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeploymentAssistant.Models\DeploymentAssistant.Models.csproj">
+      <Project>{71e4c09f-c10e-43bd-843a-d20d04692f2d}</Project>
+      <Name>DeploymentAssistant.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
