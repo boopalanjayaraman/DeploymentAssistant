@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeploymentAssistant.Executors
+namespace DeploymentAssistant.Executors.Models
 {
     /// <summary>
     /// Data model for activity and script mapping

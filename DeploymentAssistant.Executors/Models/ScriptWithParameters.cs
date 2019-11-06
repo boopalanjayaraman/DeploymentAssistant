@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeploymentAssistant.Executors
+namespace DeploymentAssistant.Executors.Models
 {
     /// <summary>
     /// Class to hold script block and its associated parameters as objects

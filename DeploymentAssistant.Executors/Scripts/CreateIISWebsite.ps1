@@ -1,6 +1,6 @@
 #Requires -Version 3.0
 #Requires -RunAsAdministrator
-function CreateWebsite()
+function CreateIISWebsite()
 {
     param([String]$websiteName, [System.Collections.Generic.Dictionary[string, string]]$bindings, [String]$physicalPath, [Boolean]$override = $false)
 

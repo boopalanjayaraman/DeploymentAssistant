@@ -1,4 +1,5 @@
 ﻿using DeploymentAssistant.Common;
+using DeploymentAssistant.Executors.Models;
 using DeploymentAssistant.Models;
 using log4net;
 using System;

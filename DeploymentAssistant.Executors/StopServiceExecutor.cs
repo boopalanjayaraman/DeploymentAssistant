@@ -30,7 +30,7 @@ namespace DeploymentAssistant.Executors
             var remoteComputerName = activity.Host.HostName;
             //// start the service through command
             StopService(activity, remoteComputerName);
-            logger.Info("Service Stop - Activity Execution Finished.");
+            logger.Info("Activity Execution Finished.");
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace DeploymentAssistant.Executors
             logger.Info("Service Stop - Activity Verification Started.");
             if (quitExecuting)
             {
-                logger.Info("Service Stop - Activity Verification skipped. QuitExecuting Flag is true.");
+                logger.Info("Activity Verification skipped. QuitExecuting Flag is true.");
                 this.Result = new ExecutionResult();
                 return;
             }

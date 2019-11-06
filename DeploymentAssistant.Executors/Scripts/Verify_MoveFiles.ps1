@@ -1,9 +1,9 @@
 #Requires -Version 3.0
 function VerifyMoveFiles()
 {
-	param([String]$targetPath)
+	param([String]$destinationPath)
 
-	$targetItems = (Get-ChildItem -Path $targetPath -Recurse).FullName
+	$targetItems = (Get-ChildItem -Path $destinationPath -Recurse).FullName
     $count = $targetItems.Count
 	if($count -gt 0)
 	{

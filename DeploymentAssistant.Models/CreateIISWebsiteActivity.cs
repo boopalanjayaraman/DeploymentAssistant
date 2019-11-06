@@ -31,7 +31,7 @@ namespace DeploymentAssistant.Models
         /// If the web site already exists, update the settings rather than stopping.
         /// default : false. Leaves if exists.
         /// </summary>
-        bool OverrideIfExists { get; set; }
+        public bool OverrideIfExists { get; set; }
 
         public CreateIISWebsiteActivity()
         {

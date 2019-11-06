@@ -1,4 +1,5 @@
 ﻿using DeploymentAssistant.Common;
+using DeploymentAssistant.Executors.Models;
 using DeploymentAssistant.Models;
 using log4net;
 using System;
@@ -17,7 +18,7 @@ namespace DeploymentAssistant.Executors
         public CopyFilesExecutor(ExecutionActivity activity, IShellManager shellManager)
             : base(activity, shellManager)
         {
-            logger = LogManager.GetLogger(typeof(StopServiceExecutor));
+            logger = LogManager.GetLogger(typeof(CopyFilesExecutor));
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace DeploymentAssistant.Executors
             var host = activity.Host.HostName;
             //// Copy the files
             CopyFiles(activity, host);
-            logger.Info("Service Start - Activity Execution Finished.");
+            logger.Info("Activity Execution Finished.");
         }
 
         private void CopyFiles(CopyFilesActivity activity, string host)

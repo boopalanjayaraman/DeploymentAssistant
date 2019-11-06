@@ -1,4 +1,5 @@
-﻿using DeploymentAssistant.Models;
+﻿using DeploymentAssistant.Executors.Models;
+using DeploymentAssistant.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

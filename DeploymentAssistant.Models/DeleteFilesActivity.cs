@@ -12,9 +12,9 @@ namespace DeploymentAssistant.Models
     public class DeleteFilesActivity : ExecutionActivity
     {
         /// <summary>
-        /// Target path on the given hosts - will be appended to each host name in host info.
+        /// Target path on the given hosts.
         /// </summary>
-        public string TargetPath { get; set; }
+        public string DestinationPath { get; set; }
 
         /// <summary>
         /// Says if the copy activity is being done for a file rather than a folder. 
@@ -28,7 +28,7 @@ namespace DeploymentAssistant.Models
         /// <returns></returns>
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(TargetPath);
+            return !string.IsNullOrWhiteSpace(DestinationPath);
         }
     }
 }

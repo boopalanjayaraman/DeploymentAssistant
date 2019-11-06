@@ -14,7 +14,12 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// Full file path of the certificate to be applied
         /// </summary>
-        public string CertificateFilePath { get; set; }
+        public string CertificateSharePath { get; set; }
+
+        /// <summary>
+        /// LocalMachine 
+        /// </summary>
+        public string StoreLocation { get; set; }
 
         /// <summary>
         /// WebHosting / My 
@@ -42,6 +47,11 @@ namespace DeploymentAssistant.Models
         public string Port { get; set; }
 
         /// <summary>
+        /// Host Header of website
+        /// </summary>
+        public string HostHeader { get; set; }
+
+        /// <summary>
         /// Binding IP value
         /// </summary>
         public string BindingIp { get; set; }
@@ -57,7 +67,7 @@ namespace DeploymentAssistant.Models
         /// <returns></returns>
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(CertificateFilePath)
+            return !string.IsNullOrWhiteSpace(CertificateSharePath)
                 && !string.IsNullOrWhiteSpace(StoreName)
                 && !string.IsNullOrWhiteSpace(WebsiteName);
         }
