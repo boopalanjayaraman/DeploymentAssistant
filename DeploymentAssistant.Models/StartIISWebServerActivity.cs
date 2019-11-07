@@ -11,6 +11,18 @@ namespace DeploymentAssistant.Models
     /// </summary>
     public class StartIISWebServerActivity : ExecutionActivity
     {
+
+        /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.StartIISWebServer;
+            }
+        }
+
         public StartIISWebServerActivity()
         {
 

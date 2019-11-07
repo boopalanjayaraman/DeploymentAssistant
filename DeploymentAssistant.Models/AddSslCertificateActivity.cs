@@ -56,6 +56,17 @@ namespace DeploymentAssistant.Models
         /// </summary>
         public string BindingIp { get; set; }
 
+        /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.AddSslCertificate;
+            }
+        }
+
         public AddSslCertificateActivity()
         {
 

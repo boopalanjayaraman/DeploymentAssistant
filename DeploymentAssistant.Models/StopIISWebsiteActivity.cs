@@ -21,6 +21,17 @@ namespace DeploymentAssistant.Models
         /// </summary>
         public string Port { get; set; }
 
+        /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.StopIISWebsite;
+            }
+        }
+
         public StopIISWebsiteActivity()
         {
 

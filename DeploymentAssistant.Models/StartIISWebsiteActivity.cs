@@ -27,6 +27,17 @@ namespace DeploymentAssistant.Models
         }
 
         /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.StartIISWebsite;
+            }
+        }
+
+        /// <summary>
         /// Self validating function
         /// </summary>
         /// <returns></returns>

@@ -33,6 +33,17 @@ namespace DeploymentAssistant.Models
         /// </summary>
         public bool OverrideIfExists { get; set; }
 
+        /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.CreateIISWebsite;
+            }
+        }
+
         public CreateIISWebsiteActivity()
         {
 

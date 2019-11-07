@@ -46,6 +46,17 @@ namespace DeploymentAssistant.Models
         public bool IsFile { get; set; }
 
         /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.CopyFiles;
+            }
+        }
+
+        /// <summary>
         /// Self validating function
         /// </summary>
         /// <returns></returns>

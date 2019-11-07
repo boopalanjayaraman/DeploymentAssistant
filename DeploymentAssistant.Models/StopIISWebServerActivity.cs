@@ -11,6 +11,18 @@ namespace DeploymentAssistant.Models
     /// </summary>
     public class StopIISWebServerActivity : ExecutionActivity
     {
+
+        /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.StopIISWebServer;
+            }
+        }
+
         public StopIISWebServerActivity()
         {
 

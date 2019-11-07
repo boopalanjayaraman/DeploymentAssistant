@@ -22,9 +22,20 @@ namespace DeploymentAssistant.Models
             return !string.IsNullOrWhiteSpace(ServiceName);
         }
 
+        /// <summary>
+        /// activity type
+        /// </summary>
+        public override ExecutionType Operation
+        {
+            get
+            {
+                return ExecutionType.StartService;
+            }
+        }
+
         public StartServiceActivity()
         {
-            this.Operation = ExecutionType.StartService;
+
         }
     }
 }

@@ -70,7 +70,10 @@ namespace DeploymentAssistant.Executors
             if (isValid)
             {
                 this.Steps.Add(step);
-                StepAdded(this, new ActivityEventArgs() { Activity = step });
+                if (StepAdded != null)
+                {
+                    StepAdded(this, new ActivityEventArgs() { Activity = step });
+                }
             }
             else
             {
@@ -103,7 +106,10 @@ namespace DeploymentAssistant.Executors
                 logger.InfoFormat("Activity Details: {0}", activityStep.ToJson());
                 var executor = ExecutorProvider.GetExecutor(activityStep);
                 //// publish event - for starting the step
-                StepStarted(this, new ActivityEventArgs() { Activity = activityStep });
+                if(StepStarted != null)
+                {
+                    StepStarted(this, new ActivityEventArgs() { Activity = activityStep });
+                }
                 //// execute the step
                 executor.Execute();
                 logger.Info("Step Execution was done.");
@@ -113,7 +119,21 @@ namespace DeploymentAssistant.Executors
                 //// TODO: do the common error handling here. Throw exceptions inside the class.
                 var result = executor.Result;
                 //// publish event - for completing the step
-                StepCompleted(this, new ActivityEventArgs() { Activity = activityStep, Result = result });
+                if(StepCompleted != null)
+                {
+                    StepCompleted(this, new ActivityEventArgs() { Activity = activityStep, Result = result });
+                }
+                //// check the ContinueOnError flag and decide the flow based on that.
+                if (!activityStep.ContinueOnFailure)
+                {
+                    //// if result is failure, break.
+                    if (!result.IsSuccess)
+                    {
+                        logger.Info("Activity ContinueOnFailure flag is set to false, and result was failure. Hence, breaking.");
+                        logger.Info("Pipeline ends.");
+                        break;
+                    }
+                }
             }
             logger.Info("Pipeline execution completed.");
         }
