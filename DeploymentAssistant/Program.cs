@@ -12,6 +12,9 @@ namespace DeploymentAssistant
 {
     class Program
     {
+        const int args_index_mode = 0;
+        const int args_index_file = 1;
+
         static void Main(string[] args)
         {
             ILog logger = LogManager.GetLogger(typeof(Program));
@@ -22,14 +25,26 @@ namespace DeploymentAssistant
             if((mode == null) || (mode.Equals("RunPipeline", StringComparison.CurrentCultureIgnoreCase)))
             {
                 logger.Info("Executing the default mode. Mode: RunPipeline.");
+                var fileName = string.Empty;
+                if(args.ElementAtOrDefault(args_index_file) != null)
+                {
+                    fileName = args.ElementAt(args_index_file);
+                }
+                //// Call pipeline Maker
                 PipelineMaker pipelineMaker = new PipelineMaker();
-                pipelineMaker.Load();
+                pipelineMaker.Load(fileName);
             }
             else if(mode.Equals("DumpConfig", StringComparison.CurrentCultureIgnoreCase))
             {
                 logger.Info("Executing the config helper mode. Mode: DumpConfig.");
+                var fileName = string.Empty;
+                if (args.ElementAtOrDefault(args_index_file) != null)
+                {
+                    fileName = args.ElementAt(args_index_file);
+                }
+                //// Call config Maker
                 ConfigMaker configMaker = new ConfigMaker();
-                configMaker.Dump();
+                configMaker.Dump(fileName);
             }
 
             logger.Info("Finished the program.");
