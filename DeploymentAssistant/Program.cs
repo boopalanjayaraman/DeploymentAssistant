@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DeploymentAssistant.Common;
 using log4net;
 using log4net.Config;
+using System.IO;
 
 namespace DeploymentAssistant
 {
@@ -29,6 +30,11 @@ namespace DeploymentAssistant
                 if(args.ElementAtOrDefault(args_index_file) != null)
                 {
                     fileName = args.ElementAt(args_index_file);
+                    if(!File.Exists(fileName))
+                    {
+                        logger.Error("Config File is not available at the given path. Please input a valid file name.");
+                        return;
+                    }
                 }
                 //// Call pipeline Maker
                 PipelineMaker pipelineMaker = new PipelineMaker();
