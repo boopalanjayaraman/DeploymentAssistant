@@ -1,8 +1,8 @@
 #Requires -Version 3.0
 #Requires -RunAsAdministrator
-function StopIISWebsite()
-{
-	param([String]$website)
+# Script - function - StopIISWebsite()
 
-	Stop-WebSite -Name $website
-} 
+param([String]$website)
+
+Stop-WebSite -Name $website
+ 

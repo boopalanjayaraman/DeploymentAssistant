@@ -40,11 +40,9 @@ namespace DeploymentAssistant.Executors
             {
                 var deleteFilesScript = new ScriptWithParameters();
                 deleteFilesScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var deleteFilesCallScript = new ScriptWithParameters();
-                deleteFilesCallScript.Script = Constants.PowershellScripts.DeleteFilesCall;
-                deleteFilesCallScript.Params = new List<object>();
-                deleteFilesCallScript.Params.Add(activity.DestinationPath);
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { deleteFilesScript, deleteFilesCallScript }, true);
+                deleteFilesScript.Params = new Dictionary<string, object>();
+                deleteFilesScript.Params.Add("destinationPath", activity.DestinationPath);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { deleteFilesScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -82,11 +80,9 @@ namespace DeploymentAssistant.Executors
             {
                 var verifyScript = new ScriptWithParameters();
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
-                var verifyCallScript = new ScriptWithParameters();
-                verifyCallScript.Script = Constants.PowershellScripts.VerifyDeleteFilesCall;
-                verifyCallScript.Params = new List<object>();
-                verifyCallScript.Params.Add(activity.DestinationPath);
-                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript, verifyCallScript }, true);
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("destinationPath", activity.DestinationPath);
+                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
                 status = result[0] != null ? result[0].ToString() : string.Empty;
             }
             catch (ApplicationException appEx)

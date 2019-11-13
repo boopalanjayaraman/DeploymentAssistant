@@ -39,20 +39,18 @@ namespace DeploymentAssistant.Executors
             {
                 var addSslCertificateScript = new ScriptWithParameters();
                 addSslCertificateScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var addSslCertificateCallScript = new ScriptWithParameters();
-                addSslCertificateCallScript.Script = Constants.PowershellScripts.AddSslCertificateCall;
-                addSslCertificateCallScript.Params = new List<object>();
-                addSslCertificateCallScript.Params.Add(activity.CertificateSharePath);
-                addSslCertificateCallScript.Params.Add(activity.CertificateThumbprint);
-                addSslCertificateCallScript.Params.Add(activity.CertificatePassword);
-                addSslCertificateCallScript.Params.Add(activity.Host.HostName);
-                addSslCertificateCallScript.Params.Add(activity.WebsiteName);
-                addSslCertificateCallScript.Params.Add(activity.Port);
-                addSslCertificateCallScript.Params.Add(activity.HostHeader);
-                addSslCertificateCallScript.Params.Add(activity.BindingIp);
-                addSslCertificateCallScript.Params.Add(activity.StoreLocation);
-                addSslCertificateCallScript.Params.Add(activity.StoreName);
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { addSslCertificateScript, addSslCertificateCallScript }, true);
+                addSslCertificateScript.Params = new Dictionary<string, object>();
+                addSslCertificateScript.Params.Add("CertificateSharePath", activity.CertificateSharePath);
+                addSslCertificateScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint);
+                addSslCertificateScript.Params.Add("pwd", activity.CertificatePassword);
+                addSslCertificateScript.Params.Add("hostIp", activity.Host.HostName);
+                addSslCertificateScript.Params.Add("websiteName", activity.WebsiteName);
+                addSslCertificateScript.Params.Add("port", activity.Port);
+                addSslCertificateScript.Params.Add("hostHeader", activity.HostHeader);
+                addSslCertificateScript.Params.Add("bindingIp", activity.BindingIp);
+                addSslCertificateScript.Params.Add("storeLocation", activity.StoreLocation);
+                addSslCertificateScript.Params.Add("storeName", activity.StoreName);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { addSslCertificateScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -90,20 +88,18 @@ namespace DeploymentAssistant.Executors
             {
                 var verifyScript = new ScriptWithParameters();
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
-                var verifyCallScript = new ScriptWithParameters();
-                verifyCallScript.Script = Constants.PowershellScripts.VerifyAddSslCertificateCall;
-                verifyCallScript.Params = new List<object>();
-                verifyCallScript.Params.Add(activity.CertificateSharePath);
-                verifyCallScript.Params.Add(activity.CertificateThumbprint);
-                verifyCallScript.Params.Add(activity.CertificatePassword);
-                verifyCallScript.Params.Add(activity.Host.HostName);
-                verifyCallScript.Params.Add(activity.WebsiteName);
-                verifyCallScript.Params.Add(activity.Port);
-                verifyCallScript.Params.Add(activity.HostHeader);
-                verifyCallScript.Params.Add(activity.BindingIp);
-                verifyCallScript.Params.Add(activity.StoreLocation);
-                verifyCallScript.Params.Add(activity.StoreName);
-                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript, verifyCallScript }, true);
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("CertificateSharePath", activity.CertificateSharePath);
+                verifyScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint);
+                verifyScript.Params.Add("pwd", activity.CertificatePassword);
+                verifyScript.Params.Add("hostIp", activity.Host.HostName);
+                verifyScript.Params.Add("websiteName", activity.WebsiteName);
+                verifyScript.Params.Add("port", activity.Port);
+                verifyScript.Params.Add("hostHeader", activity.HostHeader);
+                verifyScript.Params.Add("bindingIp", activity.BindingIp);
+                verifyScript.Params.Add("storeLocation", activity.StoreLocation);
+                verifyScript.Params.Add("storeName", activity.StoreName);
+                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
                 status = result[0] != null ? result[0].ToString() : string.Empty;
             }
             catch (ApplicationException appEx)

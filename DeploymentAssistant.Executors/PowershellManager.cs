@@ -136,7 +136,7 @@ namespace DeploymentAssistant.Executors
         {
             Runspace runspace = GetRunspace(remoteComputer);
             runspace.Open();
-            Collection<object> response = null;
+            Collection<object> response = new Collection<object>();
             using (var powershell = PowerShell.Create())
             {
                 logger.Info("Adding scripts to the runspace.");
@@ -162,17 +162,27 @@ namespace DeploymentAssistant.Executors
         {
             Runspace runspace = GetRunspace(remoteComputer);
             runspace.Open();
-            Collection<object> response = null;
+            Collection<object> response = new Collection<object>();
             using (var powershell = PowerShell.Create())
             {
                 logger.Info("Adding scripts to the runspace.");
                 powershell.Runspace = runspace;
                 foreach (var script in commandScripts)
                 {
-                    powershell.AddScript(script.Script);
-                    if((script.Params != null) && (script.Params.Count > 0))
+                    if (script.IsCommand)
                     {
-                        powershell.AddParameters(script.Params);
+                        powershell.AddCommand(script.Script);
+                    }
+                    else
+                    {
+                        powershell.AddScript(script.Script);
+                    }
+                    if ((script.Params != null) && (script.Params.Count > 0))
+                    {
+                        foreach (var param in script.Params)
+                        {
+                            powershell.AddParameter(param.Key, param.Value);
+                        }
                     }
                 }
                 var results = powershell.Invoke();

@@ -39,9 +39,7 @@ namespace DeploymentAssistant.Executors
             {
                 var stopIISWebServerScript = new ScriptWithParameters();
                 stopIISWebServerScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var stopIISWebServerCallScript = new ScriptWithParameters();
-                stopIISWebServerCallScript.Script = Constants.PowershellScripts.StopIISWebServerCall;
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { stopIISWebServerScript, stopIISWebServerCallScript }, true);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { stopIISWebServerScript }, true);
             }
             catch (ApplicationException appEx)
             {

@@ -39,11 +39,9 @@ namespace DeploymentAssistant.Executors
             {
                 var startIISwebsiteScript = new ScriptWithParameters();
                 startIISwebsiteScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var startIISWebsiteCallScript = new ScriptWithParameters();
-                startIISWebsiteCallScript.Script = Constants.PowershellScripts.StartIISWebsiteCall;
-                startIISWebsiteCallScript.Params = new List<object>();
-                startIISWebsiteCallScript.Params.Add(activity.WebsiteName);
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { startIISwebsiteScript, startIISWebsiteCallScript }, true);
+                startIISwebsiteScript.Params = new Dictionary<string, object>();
+                startIISwebsiteScript.Params.Add("website", activity.WebsiteName);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { startIISwebsiteScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -81,11 +79,9 @@ namespace DeploymentAssistant.Executors
             {
                 var verifyScript = new ScriptWithParameters();
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
-                var verifyCallScript = new ScriptWithParameters();
-                verifyCallScript.Script = Constants.PowershellScripts.VerifyStartIISWebsiteCall;
-                verifyCallScript.Params = new List<object>();
-                verifyCallScript.Params.Add(activity.WebsiteName);
-                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript, verifyCallScript }, true);
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("website", activity.WebsiteName);
+                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
                 status = result[0] != null ? result[0].ToString() : string.Empty;
             }
             catch (ApplicationException appEx)

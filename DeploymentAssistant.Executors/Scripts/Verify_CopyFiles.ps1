@@ -1,5 +1,6 @@
 #Requires -Version 3.0
-#script - function - VerifyMoveFiles
+#script - function - VerifyCopyFiles
+#only a simple version
 
 param([String]$destinationPath)
 

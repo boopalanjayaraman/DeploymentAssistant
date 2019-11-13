@@ -9,8 +9,8 @@ namespace DeploymentAssistant.Common
     {
         public class PowershellScripts
         {
-            public const string StartServiceCall = @"StartService {0}";
-            public const string StopServiceCall = @"StopService {0}";
+            public const string StartServiceCall = @"StartService";
+            public const string StopServiceCall = @"StopService";
             public const string CopyFilesCall = @"CopyFiles";
             public const string MoveFilesCall = @"MoveFiles";
             public const string DeleteFilesCall = @"DeleteFiles";
@@ -21,8 +21,8 @@ namespace DeploymentAssistant.Common
             public const string CreateIISWebsiteCall = @"CreateIISWebsite";
             public const string AddSslCertificateCall = @"AddSslCertificate";
 
-            public const string VerifyStartServiceCall = @"VerifyStartService {0}";
-            public const string VerifyStopServiceCall = @"VerifyStopService {0}";
+            public const string VerifyStartServiceCall = @"VerifyStartService";
+            public const string VerifyStopServiceCall = @"VerifyStopService";
             public const string VerifyMoveFilesCall = @"VerifyMoveFiles";
             public const string VerifyDeleteFilesCall = @"VerifyDeleteFiles";
             public const string VerifyStopIISWebsiteCall = @"VerifyStopIISWebsite";

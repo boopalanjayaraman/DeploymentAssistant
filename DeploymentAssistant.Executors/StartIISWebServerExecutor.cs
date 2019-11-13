@@ -39,9 +39,7 @@ namespace DeploymentAssistant.Executors
             {
                 var startIISWebServerScript = new ScriptWithParameters();
                 startIISWebServerScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var startIISWebServerCallScript = new ScriptWithParameters();
-                startIISWebServerCallScript.Script = Constants.PowershellScripts.StartIISWebServerCall;
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { startIISWebServerScript, startIISWebServerCallScript }, true);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { startIISWebServerScript }, true);
             }
             catch (ApplicationException appEx)
             {

@@ -7,6 +7,7 @@ using DeploymentAssistant.Models;
 using DeploymentAssistant.Common;
 using log4net;
 using log4net.Repository.Hierarchy;
+using DeploymentAssistant.Executors.Models;
 
 namespace DeploymentAssistant.Executors
 {
@@ -55,13 +56,16 @@ namespace DeploymentAssistant.Executors
             logger.InfoFormat("Verification Finished. Result: {0}", this.Result.ToJson());
         }
 
-        private string VerifyService(StartServiceActivity activity, string remoteComputerName)
+        private string VerifyService(StartServiceActivity activity, string host)
         {
             var status = string.Empty;
             try
             {
-                var verifyStartServiceCallScript = string.Format(Constants.PowershellScripts.VerifyStartServiceCall, activity.ServiceName);
-                status = _shellManager.GetValue(remoteComputerName, new List<string> { this.ActivityScriptMap.VerificationScript, verifyStartServiceCallScript }, true);
+                var verifyScript = new ScriptWithParameters();
+                verifyScript.Script = this.ActivityScriptMap.VerificationScript;
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("serviceName", activity.ServiceName);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -72,12 +76,15 @@ namespace DeploymentAssistant.Executors
             return status;
         }
 
-        private void StartService(StartServiceActivity activity, string remoteComputerName)
+        private void StartService(StartServiceActivity activity, string host)
         {
             try
             {
-                var startServiceCallScript = string.Format(Constants.PowershellScripts.StartServiceCall, activity.ServiceName);
-                _shellManager.ExecuteCommands(remoteComputerName, new List<string> { this.ActivityScriptMap.ExecutionScript, startServiceCallScript }, true);
+                var startServiceScript = new ScriptWithParameters();
+                startServiceScript.Script = this.ActivityScriptMap.ExecutionScript;
+                startServiceScript.Params = new Dictionary<string, object>();
+                startServiceScript.Params.Add("serviceName", activity.ServiceName);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { startServiceScript }, true);
             }
             catch (ApplicationException appEx)
             {

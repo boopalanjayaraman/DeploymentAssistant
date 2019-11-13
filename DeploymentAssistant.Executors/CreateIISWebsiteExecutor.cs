@@ -39,14 +39,12 @@ namespace DeploymentAssistant.Executors
             {
                 var createIISwebsiteScript = new ScriptWithParameters();
                 createIISwebsiteScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var createIISWebsiteCallScript = new ScriptWithParameters();
-                createIISWebsiteCallScript.Script = Constants.PowershellScripts.CreateIISWebsiteCall;
-                createIISWebsiteCallScript.Params = new List<object>();
-                createIISWebsiteCallScript.Params.Add(activity.WebsiteName);
-                createIISWebsiteCallScript.Params.Add(activity.Bindings);
-                createIISWebsiteCallScript.Params.Add(activity.PhysicalPath);
-                createIISWebsiteCallScript.Params.Add(activity.OverrideIfExists);
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { createIISwebsiteScript, createIISWebsiteCallScript }, true);
+                createIISwebsiteScript.Params = new Dictionary<string, object>();
+                createIISwebsiteScript.Params.Add("websiteName", activity.WebsiteName);
+                createIISwebsiteScript.Params.Add("bindings", activity.Bindings);
+                createIISwebsiteScript.Params.Add("physicalPath", activity.PhysicalPath);
+                createIISwebsiteScript.Params.Add("override", activity.OverrideIfExists);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { createIISwebsiteScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -84,14 +82,12 @@ namespace DeploymentAssistant.Executors
             {
                 var verifyScript = new ScriptWithParameters();
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
-                var verifyCallScript = new ScriptWithParameters();
-                verifyCallScript.Script = Constants.PowershellScripts.VerifyCreateIISWebsiteCall;
-                verifyCallScript.Params = new List<object>();
-                verifyCallScript.Params.Add(activity.WebsiteName);
-                verifyCallScript.Params.Add(activity.Bindings);
-                verifyCallScript.Params.Add(activity.PhysicalPath);
-                verifyCallScript.Params.Add(activity.OverrideIfExists);
-                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript, verifyCallScript }, true);
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("websiteName", activity.WebsiteName);
+                verifyScript.Params.Add("bindings", activity.Bindings);
+                verifyScript.Params.Add("physicalPath", activity.PhysicalPath);
+                verifyScript.Params.Add("override", activity.OverrideIfExists);
+                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
                 status = result[0] != null ? result[0].ToString() : string.Empty;
             }
             catch (ApplicationException appEx)

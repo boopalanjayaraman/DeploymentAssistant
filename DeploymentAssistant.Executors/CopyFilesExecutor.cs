@@ -40,17 +40,18 @@ namespace DeploymentAssistant.Executors
             {
                 var copyFilesScript = new ScriptWithParameters();
                 copyFilesScript.Script = this.ActivityScriptMap.ExecutionScript;
-                var copyFilesCall = new ScriptWithParameters();
-                copyFilesCall.Script = Constants.PowershellScripts.CopyFilesCall;
-                copyFilesCall.Params = new List<object>();
-                copyFilesCall.Params.Add(activity.SourcePath);
-                copyFilesCall.Params.Add(activity.DestinationPath);
-                copyFilesCall.Params.Add(activity.ExcludeExtensions);
-                copyFilesCall.Params.Add(activity.SkipFolders);
-                copyFilesCall.Params.Add(activity.SkipFoldersIfExist);
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { copyFilesScript, copyFilesCall }, true);
+                copyFilesScript.IsCommand = true;
+
+                copyFilesScript.Params = new Dictionary<string, object>();
+                copyFilesScript.Params.Add("sourcePath", activity.SourcePath);
+                copyFilesScript.Params.Add("destinationPath", activity.DestinationPath);
+                copyFilesScript.Params.Add("excludeExtensions", activity.ExcludeExtensions.ToArray());
+                copyFilesScript.Params.Add("skipFolders", activity.SkipFolders.ToArray());
+                copyFilesScript.Params.Add("skipFoldersIfExist", activity.SkipFoldersIfExist.ToArray());
+
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { copyFilesScript }, true);
             }
-            catch(ApplicationException appEx)
+            catch (ApplicationException appEx)
             {
                 logger.Error(appEx.Message);
                 HandleException(appEx, activity);
@@ -64,9 +65,40 @@ namespace DeploymentAssistant.Executors
         public override void Verify()
         {
             logger.Info("Copy Files - Activity Verification Started.");
-            logger.Info("No verification method is implemented / was necessary.");
-            this.Result = new ExecutionResult() { IsSuccess = true };
+            if (quitExecuting)
+            {
+                logger.Info("Activity Verification skipped. QuitExecuting Flag is true.");
+                this.Result = new ExecutionResult();
+                return;
+            }
+
+            var activity = this.Activity as CopyFilesActivity;
+            var host = activity.Host.HostName;
+            var status = VerifyCopyFiles(activity, host);
+
+            this.Result = new ExecutionResult() { IsSuccess = !status.Equals("0") };
             logger.InfoFormat("Verification Finished. Result: {0}", this.Result.ToJson());
+        }
+
+        private string VerifyCopyFiles(CopyFilesActivity activity, string host)
+        {
+            var status = string.Empty;
+            try
+            {
+                var verifyScript = new ScriptWithParameters();
+                verifyScript.Script = this.ActivityScriptMap.VerificationScript;
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("destinationPath", activity.DestinationPath);
+                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
+                status = result[0] != null ? result[0].ToString() : string.Empty;
+            }
+            catch (ApplicationException appEx)
+            {
+                logger.Error(appEx.Message);
+                HandleException(appEx, activity);
+            }
+
+            return status;
         }
     }
 }

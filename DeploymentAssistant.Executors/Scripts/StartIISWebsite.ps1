@@ -1,8 +1,8 @@
 #Requires -Version 3.0
 #Requires -RunAsAdministrator
-function StartIISWebsite()
-{
-	param([String]$website)
+# Script - function - StartIISWebsite
 
-	Start-WebSite -Name $website
-} 
+param([String]$website)
+
+Start-WebSite -Name $website
+ 

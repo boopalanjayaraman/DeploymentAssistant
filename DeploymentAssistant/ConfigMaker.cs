@@ -22,14 +22,14 @@ namespace DeploymentAssistant
 
         public ConfigMaker()
         {
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopService.ToString(), new StopServiceActivity()
-                {
-                    ContinueOnFailure = false,
-                    Host = new HostInfo() { HostName = "PTPLL258" },
-                    Name = "Redis Service Stop",
-                    ServiceName = "rediscacheservice",
-                    Order = 1
-                }));
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopService.ToString(), new StopServiceActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Redis Service Stop",
+                ServiceName = "rediscacheservice",
+                Order = 1
+            }));
             activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartService.ToString(), new StartServiceActivity()
             {
                 ContinueOnFailure = false,
@@ -37,7 +37,29 @@ namespace DeploymentAssistant
                 Name = "Redis Service Start",
                 ServiceName = "rediscacheservice",
                 Order = 2
+            }));*/
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Copy HeapImplementation Files",
+                Order = 3,
+                SourcePath = @"E:\TestDepAsst",
+                DestinationPath = @"\\PTPLL695\BooFolder",
+                ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
+                SkipFolders = new List<string>() { @"\obj" }
             }));
+            //activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartService.ToString(), new CopyFilesActivity()
+            //{
+            //    ContinueOnFailure = false,
+            //    Host = new HostInfo() { HostName = "PTPLL258" },
+            //    Name = "Copy HeapImplementation Files",
+            //    Order = 3,
+            //    SourcePath = "E:\\TestDepAsst",
+            //    DestinationPath = "\\\\PTPLL695\\D$\\BooFolder",
+
+            //}));
+
             logger.Info("Configuration Entries are initialized");
         }
 

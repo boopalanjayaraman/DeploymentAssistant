@@ -65,5 +65,15 @@ namespace DeploymentAssistant.Models
             return !string.IsNullOrWhiteSpace(SourcePath)
                 && !string.IsNullOrWhiteSpace(DestinationPath);
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CopyFilesActivity()
+        {
+            this.SkipFolders = new List<string>();
+            this.SkipFoldersIfExist = new List<string>();
+            this.ExcludeExtensions = new List<string>();
+        }
     }
 }

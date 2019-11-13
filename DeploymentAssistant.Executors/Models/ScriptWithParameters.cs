@@ -11,8 +11,16 @@ namespace DeploymentAssistant.Executors.Models
     /// </summary>
     internal class ScriptWithParameters
     {
+        /// <summary>
+        /// Holds the powershell script text to be executed
+        /// </summary>
         public string Script { get; set; }
 
-        public List<object> Params { get; set; }
+        /// <summary>
+        /// Parameters to be passed in to the script. Represented by key-value pairs.
+        /// </summary>
+        public Dictionary<string, object> Params { get; set; }
+
+        public bool IsCommand { get; set; }
     }
 }

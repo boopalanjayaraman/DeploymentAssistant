@@ -1,4 +1,5 @@
 ﻿using DeploymentAssistant.Common;
+using DeploymentAssistant.Executors.Models;
 using DeploymentAssistant.Models;
 using log4net;
 using System;
@@ -53,13 +54,16 @@ namespace DeploymentAssistant.Executors
             logger.InfoFormat("Verification Finished. Result: {0}", this.Result.ToJson());
         }
 
-        private string VerifyService(StopServiceActivity activity, string remoteComputerName)
+        private string VerifyService(StopServiceActivity activity, string host)
         {
             var status = string.Empty;
             try
             {
-                var verifyStopServiceCallScript = string.Format(Constants.PowershellScripts.VerifyStopServiceCall, activity.ServiceName);
-                status = _shellManager.GetValue(remoteComputerName, new List<string> { this.ActivityScriptMap.VerificationScript, verifyStopServiceCallScript }, true);
+                var verifyScript = new ScriptWithParameters();
+                verifyScript.Script = this.ActivityScriptMap.VerificationScript;
+                verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("serviceName", activity.ServiceName);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
             }
             catch (ApplicationException appEx)
             {
@@ -70,12 +74,15 @@ namespace DeploymentAssistant.Executors
             return status;
         }
 
-        private void StopService(StopServiceActivity activity, string remoteComputerName)
+        private void StopService(StopServiceActivity activity, string host)
         {
             try
             {
-                var stopServiceScriptCall = string.Format(Constants.PowershellScripts.StopServiceCall, activity.ServiceName);
-                _shellManager.ExecuteCommands(remoteComputerName, new List<string> { this.ActivityScriptMap.ExecutionScript, stopServiceScriptCall }, true);
+                var stopServiceScript = new ScriptWithParameters();
+                stopServiceScript.Script = this.ActivityScriptMap.ExecutionScript;
+                stopServiceScript.Params = new Dictionary<string, object>();
+                stopServiceScript.Params.Add("serviceName", activity.ServiceName);
+                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { stopServiceScript }, true);
             }
             catch (ApplicationException appEx)
             {

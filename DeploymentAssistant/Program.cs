@@ -15,6 +15,8 @@ namespace DeploymentAssistant
     {
         const int args_index_mode = 0;
         const int args_index_file = 1;
+        const string RunPipelineMode = "RunPipeline";
+        const string DumpConfigMode = "DumpConfig";
 
         static void Main(string[] args)
         {
@@ -23,14 +25,14 @@ namespace DeploymentAssistant
 
             var mode = args.FirstOrDefault();
 
-            if((mode == null) || (mode.Equals("RunPipeline", StringComparison.CurrentCultureIgnoreCase)))
+            if ((mode == null) || (mode.Equals(RunPipelineMode, StringComparison.CurrentCultureIgnoreCase)))
             {
                 logger.Info("Executing the default mode. Mode: RunPipeline.");
                 var fileName = string.Empty;
-                if(args.ElementAtOrDefault(args_index_file) != null)
+                if (args.ElementAtOrDefault(args_index_file) != null)
                 {
                     fileName = args.ElementAt(args_index_file);
-                    if(!File.Exists(fileName))
+                    if (!File.Exists(fileName))
                     {
                         logger.Error("Config File is not available at the given path. Please input a valid file name.");
                         return;
@@ -40,7 +42,7 @@ namespace DeploymentAssistant
                 PipelineMaker pipelineMaker = new PipelineMaker();
                 pipelineMaker.Load(fileName);
             }
-            else if(mode.Equals("DumpConfig", StringComparison.CurrentCultureIgnoreCase))
+            else if (mode.Equals(DumpConfigMode, StringComparison.CurrentCultureIgnoreCase))
             {
                 logger.Info("Executing the config helper mode. Mode: DumpConfig.");
                 var fileName = string.Empty;
