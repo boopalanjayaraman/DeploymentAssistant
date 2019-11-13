@@ -100,7 +100,7 @@ namespace DeploymentAssistant.Executors
                 verifyScript.Params.Add("storeLocation", activity.StoreLocation);
                 verifyScript.Params.Add("storeName", activity.StoreName);
                 var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
-                status = result[0] != null ? result[0].ToString() : string.Empty;
+                status = result.FirstOrDefault() != null ? result[0].ToString() : "0";
             }
             catch (ApplicationException appEx)
             {

@@ -31,7 +31,11 @@ $count = 0
 #perform copy action one by one
 Foreach ($item in $sourceItems)
 {
-    $relativePath = $item -replace $sourcePath, ''
+    Write-Verbose "item: $item, sourcePath: $sourcePath" #-Verbose
+    #$relativePath = $item -replace $sourcePath, ''
+
+    $relativePath = [Regex]::Replace($item, [regex]::Escape($sourcePath), '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+    
     $info = (Get-Item $item)
     $destinationItemPath = Join-Path $destinationPath $relativePath
 
@@ -84,7 +88,10 @@ Foreach ($item in $sourceItems)
             }
         } 
         #Create the directory 
-        [System.IO.Directory]::CreateDirectory($destinationItemPath)
+        #[System.IO.Directory]::CreateDirectory($destinationItemPath)
+        Write-Verbose "Creating Directory $destinationItemPath" #-Verbose
+        Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
+        New-Item -ItemType "directory" -Path $destinationItemPath
         $count++
         
     }
@@ -138,7 +145,10 @@ Foreach ($item in $sourceItems)
             }
         }
         #Copy the file 
-        [System.IO.File]::Copy($item, $destinationItemPath, $true)
+        #[System.IO.File]::Copy($item, $destinationItemPath, $true)
+        Write-Verbose "Copying Item from $item to $destinationItemPath" #-Verbose
+        Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
+        Copy-Item -Path $item -Destination $destinationItemPath -Force
         $count++
     }
 }

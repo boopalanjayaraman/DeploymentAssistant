@@ -84,6 +84,22 @@ namespace DeploymentAssistant.Executors
                 {
                     builder.AppendLine(error.ToString());
                 }
+                if(powershell.Streams.Debug.Count > 0)
+                {
+                    builder.AppendLine("Debug Information.");
+                }
+                foreach(var debugInfo in powershell.Streams.Debug)
+                {
+                    builder.AppendLine(debugInfo.ToString());
+                }
+                if (powershell.Streams.Verbose.Count > 0)
+                {
+                    builder.AppendLine("Verbose Information.");
+                }
+                foreach (var verbose in powershell.Streams.Verbose)
+                {
+                    builder.AppendLine(verbose.ToString());
+                }
                 var errorMessage = string.Format("PowerShell ScriptExecution Error: {0}", builder.ToString());
                 if (throwEx)
                 {

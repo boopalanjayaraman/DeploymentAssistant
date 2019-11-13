@@ -40,8 +40,6 @@ namespace DeploymentAssistant.Executors
             {
                 var copyFilesScript = new ScriptWithParameters();
                 copyFilesScript.Script = this.ActivityScriptMap.ExecutionScript;
-                copyFilesScript.IsCommand = true;
-
                 copyFilesScript.Params = new Dictionary<string, object>();
                 copyFilesScript.Params.Add("sourcePath", activity.SourcePath);
                 copyFilesScript.Params.Add("destinationPath", activity.DestinationPath);
@@ -90,7 +88,7 @@ namespace DeploymentAssistant.Executors
                 verifyScript.Params = new Dictionary<string, object>();
                 verifyScript.Params.Add("destinationPath", activity.DestinationPath);
                 var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
-                status = result[0] != null ? result[0].ToString() : string.Empty;
+                status = result.FirstOrDefault() != null ? result[0].ToString() : "0";
             }
             catch (ApplicationException appEx)
             {

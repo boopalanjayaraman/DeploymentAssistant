@@ -82,7 +82,7 @@ namespace DeploymentAssistant.Executors
                 verifyScript.Params = new Dictionary<string, object>();
                 verifyScript.Params.Add("website", activity.WebsiteName);
                 var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
-                status = result[0] != null ? result[0].ToString() : string.Empty;
+                status = result.FirstOrDefault() != null ? result[0].ToString() : "0";
             }
             catch (ApplicationException appEx)
             {

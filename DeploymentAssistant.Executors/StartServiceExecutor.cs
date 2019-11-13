@@ -65,7 +65,8 @@ namespace DeploymentAssistant.Executors
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
                 verifyScript.Params = new Dictionary<string, object>();
                 verifyScript.Params.Add("serviceName", activity.ServiceName);
-                var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
+                var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
+                status = result.FirstOrDefault() != null ? result[0].ToString() : "0";
             }
             catch (ApplicationException appEx)
             {

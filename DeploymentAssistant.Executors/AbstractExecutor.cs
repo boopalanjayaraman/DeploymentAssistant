@@ -54,15 +54,15 @@ namespace DeploymentAssistant.Executors
         protected void HandleException(ApplicationException appEx, ExecutionActivity activity)
         {
             _lastException = appEx;
-            if (!activity.ContinueOnFailure)
-            {
-                throw appEx;
-            }
-            else
-            {
-                quitExecuting = true;
-                this.Result = new ExecutionResult() { IsSuccess = false, Message = appEx.Message };
-            }
+            //if (!activity.ContinueOnFailure)
+            //{
+            //    throw appEx;
+            //}
+            //else
+            //{
+            quitExecuting = true;
+            this.Result = new ExecutionResult() { IsSuccess = false, Message = appEx.Message };
+            //}
         }
 
 
@@ -78,7 +78,7 @@ namespace DeploymentAssistant.Executors
 
             //// Get script for the activity through activity script provider
             this.ActivityScriptMap = ActivityScriptProvider.GetActivityScriptMap(activity.Operation);
-            if(!string.IsNullOrWhiteSpace(this.ActivityScriptMap.ExecutionScriptFile))
+            if (!string.IsNullOrWhiteSpace(this.ActivityScriptMap.ExecutionScriptFile))
             {
                 var executionScript = File.ReadAllText(Path.Combine(Constants.PowershellScripts.ScriptsFolder, this.ActivityScriptMap.ExecutionScriptFile));
                 this.ActivityScriptMap.ExecutionScript = executionScript;
