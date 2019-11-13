@@ -30,7 +30,7 @@ namespace DeploymentAssistant.Executors
             activityScriptMapDictionary.Add(ExecutionType.CopyFiles, new ActivityScriptMap(
                 ExecutionType.CopyFiles,
                 executionScriptFile: "CopyFiles.ps1",
-                verificationScriptFile: ""
+                verificationScriptFile: "Verify_CopyFiles.ps1"
             ));
             activityScriptMapDictionary.Add(ExecutionType.CreateIISWebsite, new ActivityScriptMap(
                 ExecutionType.CreateIISWebsite,
