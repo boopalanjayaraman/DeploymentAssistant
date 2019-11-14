@@ -5,7 +5,6 @@
 param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null)
 
 Write-Verbose "Running as $env:username" #-Verbose
-New-Item -ItemType "directory" -Path "$destinationPath\TestDir"
 
 $sourceInfo = (Get-Item $sourcePath -ErrorAction SilentlyContinue)
 
@@ -19,7 +18,8 @@ $isFile = $sourceInfo -is [System.IO.FileInfo]
 #if source is a file, then copy the file alone.
 if($isFile)
 {
-    [System.IO.File]::Copy($sourcePath, $destinationPath, $true)
+    #[System.IO.File]::Copy($sourcePath, $destinationPath, $true)
+    Copy-Item -Path $sourcePath -Destination $destinationPath -Force
     return 1
 }
 

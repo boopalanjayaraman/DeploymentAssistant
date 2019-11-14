@@ -13,7 +13,9 @@ if($sourceInfo.Count -eq 0)
 $isFile = $sourceInfo -is [System.IO.FileInfo]
 if($isFile)
 {
-    [System.IO.File]::Move($sourcePath, $destinationPath, $true)
+    #[System.IO.File]::Move($sourcePath, $destinationPath, $true)
+    Copy-Item -Path $sourcePath -Destination $destinationPath -Force -ErrorAction Stop
+    Remove-Item -Path $sourcePath
     return 1
 }
 else
@@ -25,6 +27,15 @@ else
         return 0
     }
     $count = $sourceItems.Count
-    [System.IO.Directory]::Move($sourcePath, $destinationPath)
+    #[System.IO.Directory]::Move($sourcePath, $destinationPath)
+    #Move-Item -Path $sourcePath -Destination $destinationPath -Force
+    Foreach ($item in $sourceItems)
+    {
+        $sourceItemPath = Join-Path $sourcePath $item
+        $destinationItemPath = Join-Path $destinationPath $item
+        Copy-Item -Path $sourceItemPath -Destination $destinationItemPath -Force -ErrorAction Stop
+        Remove-Item -Path $sourceItemPath -Force
+    }
+    
     return $count
 }
