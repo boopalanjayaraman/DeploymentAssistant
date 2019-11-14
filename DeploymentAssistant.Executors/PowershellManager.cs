@@ -71,6 +71,7 @@ namespace DeploymentAssistant.Executors
             logger.InfoFormat("connection Uri: {0}. Establishing Connection.", connectionUri.ToString());
             var connection = new WSManConnectionInfo(connectionUri);
             connection.AuthenticationMechanism = AuthenticationMechanism.Default;
+            connection.EnableNetworkAccess = true;
             var runspace = RunspaceFactory.CreateRunspace(connection);
             return runspace;
         }

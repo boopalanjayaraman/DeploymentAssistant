@@ -4,6 +4,9 @@
 
 param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null)
 
+Write-Verbose "Running as $env:username" #-Verbose
+New-Item -ItemType "directory" -Path "$destinationPath\TestDir"
+
 $sourceInfo = (Get-Item $sourcePath -ErrorAction SilentlyContinue)
 
 #check if source path exists
@@ -31,9 +34,6 @@ $count = 0
 #perform copy action one by one
 Foreach ($item in $sourceItems)
 {
-    Write-Verbose "item: $item, sourcePath: $sourcePath" #-Verbose
-    #$relativePath = $item -replace $sourcePath, ''
-
     $relativePath = [Regex]::Replace($item, [regex]::Escape($sourcePath), '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
     
     $info = (Get-Item $item)
@@ -88,7 +88,6 @@ Foreach ($item in $sourceItems)
             }
         } 
         #Create the directory 
-        #[System.IO.Directory]::CreateDirectory($destinationItemPath)
         Write-Verbose "Creating Directory $destinationItemPath" #-Verbose
         Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
         New-Item -ItemType "directory" -Path $destinationItemPath
@@ -145,7 +144,6 @@ Foreach ($item in $sourceItems)
             }
         }
         #Copy the file 
-        #[System.IO.File]::Copy($item, $destinationItemPath, $true)
         Write-Verbose "Copying Item from $item to $destinationItemPath" #-Verbose
         Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
         Copy-Item -Path $item -Destination $destinationItemPath -Force
