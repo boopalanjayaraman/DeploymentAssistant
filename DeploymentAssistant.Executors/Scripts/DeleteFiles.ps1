@@ -3,27 +3,33 @@
 
 param([String]$destinationPath)
 
-$targetInfo = (Get-Item $destinationPath -ErrorAction SilentlyContinue)
-    #check if source path exists
-    if($targetInfo.Count -eq 0)
-    {
-        return 0
-    }
+
+$targetInfo = (Get-Item $destinationPath)
+#check if source path exists
+if($targetInfo.Count -eq 0)
+{
+    return 0
+}
+
+
 
 $isFile = $targetInfo -is [System.IO.FileInfo]
 if($isFile)
 {
-    [System.IO.File]::Delete($destinationPath)
+    Remove-Item -Path $destinationPath -Force
     return 1
 }
 else
 {
-    $targetItems = (Get-ChildItem -Path $destinationPath -Recurse).FullName
+    $targetItems = (Get-ChildItem -Path $destinationPath).FullName
     if($targetItems.Count -eq 0)
     {
         return 0
     }
     $count = $targetItems.Count
-    [System.IO.Directory]::Delete($destinationPath, $true)
+    Foreach ($item in $targetItems)
+    {
+        Remove-Item -Path $item -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue
+    }
     return $count
 }

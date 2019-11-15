@@ -3,7 +3,7 @@
 
 param([String]$sourcePath, [String]$destinationPath)
 
-$sourceInfo = (Get-Item $sourcePath -ErrorAction SilentlyContinue)
+$sourceInfo = (Get-Item $sourcePath)
 #check if source path exists
 if($sourceInfo.Count -eq 0)
 {
@@ -13,28 +13,25 @@ if($sourceInfo.Count -eq 0)
 $isFile = $sourceInfo -is [System.IO.FileInfo]
 if($isFile)
 {
-    #[System.IO.File]::Move($sourcePath, $destinationPath, $true)
     Copy-Item -Path $sourcePath -Destination $destinationPath -Force -ErrorAction Stop
-    Remove-Item -Path $sourcePath
+    Remove-Item -Path $sourcePath -Force
     return 1
 }
 else
 {
-    $sourceItems = (Get-ChildItem -Path $sourcePath -Recurse).FullName
+    $sourceItems = (Get-ChildItem -Path $sourcePath).Name #Not using Recurse flag
     #validate the items
     if($sourceItems.Count -eq 0)
     {
         return 0
     }
     $count = $sourceItems.Count
-    #[System.IO.Directory]::Move($sourcePath, $destinationPath)
-    #Move-Item -Path $sourcePath -Destination $destinationPath -Force
     Foreach ($item in $sourceItems)
     {
         $sourceItemPath = Join-Path $sourcePath $item
         $destinationItemPath = Join-Path $destinationPath $item
-        Copy-Item -Path $sourceItemPath -Destination $destinationItemPath -Force -ErrorAction Stop
-        Remove-Item -Path $sourceItemPath -Force
+        Copy-Item -Path $sourceItemPath -Destination $destinationItemPath -Force -Recurse -ErrorAction Stop
+        Remove-Item -Path $sourceItemPath -Force -Recurse -Confirm:$false -ErrorAction SilentlyContinue
     }
     
     return $count

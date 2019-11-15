@@ -49,13 +49,21 @@ namespace DeploymentAssistant
                 ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
                 SkipFolders = new List<string>() { @"\obj" }
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.MoveFiles.ToString(), new MoveFilesActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MoveFiles.ToString(), new MoveFilesActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Move HeapImplementation Files",
                 Order = 3,
                 SourcePath = @"\\ptpll695\d$\BooFolderNotShared",
+                DestinationPath = @"\\PTPLL686\d$\BooFolder",
+            }));*/
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.DeleteFiles.ToString(), new DeleteFilesActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Delete old Files",
+                Order = 4,
                 DestinationPath = @"\\PTPLL686\d$\BooFolder",
             }));
 

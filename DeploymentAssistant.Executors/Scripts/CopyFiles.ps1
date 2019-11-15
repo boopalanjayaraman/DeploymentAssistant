@@ -6,7 +6,7 @@ param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtension
 
 Write-Verbose "Running as $env:username" #-Verbose
 
-$sourceInfo = (Get-Item $sourcePath -ErrorAction SilentlyContinue)
+$sourceInfo = (Get-Item $sourcePath)
 
 #check if source path exists
 if($sourceInfo.Count -eq 0)

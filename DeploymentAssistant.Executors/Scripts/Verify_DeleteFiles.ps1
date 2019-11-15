@@ -1,10 +1,14 @@
 #Requires -Version 3.0
 # Script - function - VerifyDeleteFiles
 
-param([String]$targetPath)
+param([String]$destinationPath)
 
-$targetItems = (Get-Item -Path $targetPath -ErrorAction SilentlyContinue).FullName
+$targetItems = (Get-ChildItem -Path $destinationPath -ErrorAction SilentlyContinue).FullName
 $count = $targetItems.Count
+if($null -eq $targetItems)
+{
+	return 0
+}
 if($count -eq 0)
 {
 	return 1
