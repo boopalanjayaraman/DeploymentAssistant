@@ -6,7 +6,7 @@ param([String]$destinationPath)
 
 $targetInfo = (Get-Item $destinationPath)
 #check if source path exists
-if($targetInfo.Count -eq 0)
+if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 {
     return 0
 }
@@ -21,7 +21,7 @@ if($isFile)
 }
 else
 {
-    $targetItems = (Get-ChildItem -Path $destinationPath).FullName
+    $targetItems = (Get-ChildItem -Path $destinationPath -Force).FullName
     if($targetItems.Count -eq 0)
     {
         return 0

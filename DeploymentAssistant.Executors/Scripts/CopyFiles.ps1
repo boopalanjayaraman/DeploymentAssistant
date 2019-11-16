@@ -9,7 +9,7 @@ Write-Verbose "Running as $env:username" #-Verbose
 $sourceInfo = (Get-Item $sourcePath)
 
 #check if source path exists
-if($sourceInfo.Count -eq 0)
+if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
 {
     return 0
 }
@@ -23,7 +23,7 @@ if($isFile)
     return 1
 }
 
-$sourceItems = (Get-ChildItem -Path $sourcePath -Recurse).FullName
+$sourceItems = (Get-ChildItem -Path $sourcePath -Recurse -Force).FullName
 #validate the items
 if($sourceItems.Count -eq 0)
 {

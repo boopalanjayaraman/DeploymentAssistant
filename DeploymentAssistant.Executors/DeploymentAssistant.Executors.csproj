@@ -93,9 +93,11 @@
     <None Include="Scripts\DeleteFiles.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\GitClone.ps1" />
     <None Include="Scripts\MoveFiles.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\MsBuild.ps1" />
     <None Include="Scripts\StartIISWebServer.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -114,6 +116,7 @@
     <None Include="Scripts\StopService.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\SvnCheckout.ps1" />
     <None Include="Scripts\Verify_AddSslCertificate.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -126,6 +129,7 @@
     <None Include="Scripts\Verify_DeleteFiles.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\Verify_GitClone.ps1" />
     <None Include="Scripts\Verify_MoveFiles.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -141,6 +145,7 @@
     <None Include="Scripts\Verify_StopService.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\Verify_SvnCheckout.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ param([String]$sourcePath, [String]$destinationPath)
 
 $sourceInfo = (Get-Item $sourcePath)
 #check if source path exists
-if($sourceInfo.Count -eq 0)
+if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 {
     return 0
 }
@@ -19,7 +19,7 @@ if($isFile)
 }
 else
 {
-    $sourceItems = (Get-ChildItem -Path $sourcePath).Name #Not using Recurse flag
+    $sourceItems = (Get-ChildItem -Path $sourcePath -Force).Name #Not using Recurse flag
     #validate the items
     if($sourceItems.Count -eq 0)
     {
