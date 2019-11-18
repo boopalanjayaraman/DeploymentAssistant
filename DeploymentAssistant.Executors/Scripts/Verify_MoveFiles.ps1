@@ -1,7 +1,7 @@
 #Requires -Version 3.0
 #script - function - VerifyMoveFiles
 
-param([String]$destinationPath)
+param([String]$sourcePath, [String]$destinationPath)
 
 $targetItems = (Get-ChildItem -Path $destinationPath -Recurse).FullName
 $count = $targetItems.Count

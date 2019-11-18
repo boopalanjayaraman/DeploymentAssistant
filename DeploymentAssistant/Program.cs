@@ -56,7 +56,7 @@ namespace DeploymentAssistant
             }
 
             logger.Info("Finished the program.");
-            Console.Read();
+            //Console.Read();
         }
     }
 }

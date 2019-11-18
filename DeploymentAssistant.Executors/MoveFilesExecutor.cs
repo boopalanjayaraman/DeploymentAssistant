@@ -82,6 +82,7 @@ namespace DeploymentAssistant.Executors
                 var verifyScript = new ScriptWithParameters();
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
                 verifyScript.Params = new Dictionary<string, object>();
+                verifyScript.Params.Add("sourcePath", activity.SourcePath);
                 verifyScript.Params.Add("destinationPath", activity.DestinationPath);
                 var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
                 status = result.FirstOrDefault() != null ? result[0].ToString() : "0";

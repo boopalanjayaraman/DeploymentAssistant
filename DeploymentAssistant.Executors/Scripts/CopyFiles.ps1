@@ -4,9 +4,9 @@
 
 param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null)
 
-Write-Verbose "Running as $env:username" #-Verbose
+Write-Verbose "Running as $env:username" -Verbose
 
-$sourceInfo = (Get-Item $sourcePath)
+$sourceInfo = (Get-Item $sourcePath -Force)
 
 #check if source path exists
 if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
@@ -36,7 +36,7 @@ Foreach ($item in $sourceItems)
 {
     $relativePath = [Regex]::Replace($item, [regex]::Escape($sourcePath), '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
     
-    $info = (Get-Item $item)
+    $info = (Get-Item $item -Force)
     $destinationItemPath = Join-Path $destinationPath $relativePath
 
     $isFolder = $info -is [System.IO.DirectoryInfo]
@@ -88,9 +88,9 @@ Foreach ($item in $sourceItems)
             }
         } 
         #Create the directory 
-        Write-Verbose "Creating Directory $destinationItemPath" #-Verbose
-        Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
-        New-Item -ItemType "directory" -Path $destinationItemPath
+        #Write-Verbose "Creating Directory $destinationItemPath" #-Verbose
+        #Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
+        New-Item -ItemType "directory" -Path $destinationItemPath -Force -ErrorAction Stop
         $count++
         
     }
@@ -144,9 +144,9 @@ Foreach ($item in $sourceItems)
             }
         }
         #Copy the file 
-        Write-Verbose "Copying Item from $item to $destinationItemPath" #-Verbose
-        Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
-        Copy-Item -Path $item -Destination $destinationItemPath -Force
+        #Write-Verbose "Copying Item from $item to $destinationItemPath" -Verbose
+        #Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" -Verbose
+        Copy-Item -Path $item -Destination $destinationItemPath -Force -ErrorAction Stop 
         $count++
     }
 }

@@ -38,7 +38,7 @@ namespace DeploymentAssistant
                 ServiceName = "rediscacheservice",
                 Order = 2
             }));*/
-            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
@@ -48,24 +48,24 @@ namespace DeploymentAssistant
                 DestinationPath = @"\\PTPLL695\BooFolder",
                 ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
                 SkipFolders = new List<string>() { @"\obj" }
-            }));*/
+            }));
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MoveFiles.ToString(), new MoveFilesActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Move HeapImplementation Files",
                 Order = 3,
-                SourcePath = @"\\ptpll695\d$\BooFolderNotShared",
-                DestinationPath = @"\\PTPLL686\d$\BooFolder",
+                SourcePath = @"\\ptpll258\e$\TestDepAsst",
+                DestinationPath = @"\\ptpll695\d$\BooFolderNotShared",
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.DeleteFiles.ToString(), new DeleteFilesActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.DeleteFiles.ToString(), new DeleteFilesActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Delete old Files",
                 Order = 4,
                 DestinationPath = @"\\PTPLL686\d$\BooFolder",
-            }));
+            }));*/
 
             logger.Info("Configuration Entries are initialized");
         }
