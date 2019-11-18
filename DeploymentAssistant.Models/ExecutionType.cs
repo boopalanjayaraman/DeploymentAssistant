@@ -21,6 +21,9 @@ namespace DeploymentAssistant.Models
         StopIISWebsite,
         StartIISWebsite,
         CreateIISWebsite,
-        AddSslCertificate
+        AddSslCertificate,
+        GitClone,
+        SvnCheckout,
+        MsBuild
     }
 }

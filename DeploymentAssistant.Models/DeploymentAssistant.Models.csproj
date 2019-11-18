@@ -48,9 +48,12 @@
     <Compile Include="ExecutionActivity.cs" />
     <Compile Include="ExecutionResult.cs" />
     <Compile Include="ExecutionType.cs" />
+    <Compile Include="MsBuildActivity.cs" />
+    <Compile Include="SvnCheckoutActivity.cs" />
     <Compile Include="HostInfo.cs" />
     <Compile Include="MoveFilesActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GitCloneActivity.cs" />
     <Compile Include="ServiceStartActivity.cs" />
     <Compile Include="ServiceStopActivity.cs" />
     <Compile Include="StartIISWebServerActivity.cs" />

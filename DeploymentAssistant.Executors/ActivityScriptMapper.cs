@@ -77,6 +77,21 @@ namespace DeploymentAssistant.Executors
                 executionScriptFile: "StopService.ps1",
                 verificationScriptFile: "Verify_StopService.ps1"
             ));
+            activityScriptMapDictionary.Add(ExecutionType.GitClone, new ActivityScriptMap(
+                ExecutionType.GitClone,
+                executionScriptFile: "GitClone.ps1",
+                verificationScriptFile: "Verify_GitClone.ps1"
+            ));
+            activityScriptMapDictionary.Add(ExecutionType.SvnCheckout, new ActivityScriptMap(
+                ExecutionType.SvnCheckout,
+                executionScriptFile: "SvnCheckout.ps1",
+                verificationScriptFile: "Verify_SvnCheckout.ps1"
+            ));
+            activityScriptMapDictionary.Add(ExecutionType.MsBuild, new ActivityScriptMap(
+                ExecutionType.MsBuild,
+                executionScriptFile: "MsBuild.ps1",
+                verificationScriptFile: ""
+            ));
         }
 
         /// <summary>

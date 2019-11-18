@@ -51,6 +51,9 @@
     <Compile Include="ActivityEventArgs.cs" />
     <Compile Include="AddSslCertificateExecutor.cs" />
     <Compile Include="CreateIISWebsiteExecutor.cs" />
+    <Compile Include="MsBuildExecutor.cs" />
+    <Compile Include="SvnCheckoutExecutor.cs" />
+    <Compile Include="GitCloneExecutor.cs" />
     <Compile Include="StartIISWebsiteExecutor.cs" />
     <Compile Include="StopIISWebsiteExecutor.cs" />
     <Compile Include="DeleteFilesExecutor.cs" />
