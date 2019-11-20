@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace DeploymentAssistant.Models
         /// Bindings
         /// ex: {"http" : "*:80:"}
         /// </summary>
-        public Dictionary<string, string> Bindings { get; set; }
+        public Hashtable Bindings { get; set; }
 
         /// <summary>
         /// local folder path to which the website is to be mapped

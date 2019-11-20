@@ -3,7 +3,8 @@
 
 param([String]$sourcePath, [String]$destinationPath)
 
-$sourceInfo = (Get-Item $sourcePath)
+$sourceInfo = (Get-Item $sourcePath -Force)
+
 #check if source path exists
 if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
 {

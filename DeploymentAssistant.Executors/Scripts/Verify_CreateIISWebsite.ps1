@@ -1,7 +1,7 @@
 #Requires -Version 3.0
 # Script - function - VerifyCreateIISWebsite
  
-param([String]$websiteName, [System.Collections.Generic.Dictionary[string, string]]$bindings, [String]$physicalPath, [Boolean]$override = $false)
+param([String]$websiteName, [System.Collections.HashTable]$bindings, [String]$physicalPath, [Boolean]$override = $false)
 
 Import-Module "WebAdministration"
 
@@ -13,7 +13,8 @@ $websitesFolderPath = "IIS:\Sites\"
 $websitePath = $websitesFolderPath + $websiteName
 
 #check the physical directory
-if(![System.IO.Directory]::Exists($physicalPath))
+$sourceItem = (Get-Item $physicalPath -Force)
+if(($null -eq $sourceItem) -or ($sourceItem.Count -eq 0))
 {
     return 0
 }

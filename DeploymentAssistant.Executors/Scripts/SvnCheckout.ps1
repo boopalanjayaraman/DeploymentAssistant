@@ -19,7 +19,7 @@ if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 #change directory
 Set-Location -Path $localDestinationPath
 
-if(!$useCheckoutOrUpdate)
+if($useCheckoutOrUpdate -eq $false)
 {
     #do only check out
     svn --non-interactive --username $userName --password $pwd checkout $repoUrl

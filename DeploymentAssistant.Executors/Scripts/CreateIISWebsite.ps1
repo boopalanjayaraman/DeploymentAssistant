@@ -3,60 +3,78 @@
 
 # Script - Function - CreateIISWebsite
 
-param([String]$websiteName, [System.Collections.Generic.Dictionary[string, string]]$bindings, [String]$physicalPath, [Boolean]$override = $false)
+param([String]$websiteName, [System.Collections.HashTable]$bindings, [String]$physicalPath, [Boolean]$override = $false)
 
 Import-Module "WebAdministration"
 
 $appPoolName = $websiteName + 'Pool'
-$appPoolsFolderPath = "IIS:\AppPools\"
-$appPoolPath =  $appPoolsFolderPath + $appPoolName
+
+if($bindings.Count -le 0)
+{
+    return 0
+}
 
 #Return zero if the directory does not exist. It has to exist physically before creating websites.
 #Creating the physical directory on-the-fly will lead to empty directory getting mapped, in case of mistakes.
-if(![System.IO.Directory]::Exists($physicalPath))
+$sourceItem = (Get-Item $physicalPath -Force)
+if(($null -eq $sourceItem) -or ($sourceItem.Count -eq 0))
 {
     return 0
 }
 
 #Create the pool if it does not exist, or if it exists, act as per override parameter
-$poolCount = (Get-Item $appPoolPath -ErrorAction SilentlyContinue).Count
-if($poolCount -eq 0)
+$poolState = $null
+try
 {
-    (New-WebAppPool $appPoolName)
+    $poolState = (Get-WebAppPoolState $appPoolName).Value
+}
+catch
+{
+    $poolState = $null
+}
+
+if($null -eq $poolState)
+{
+    (New-WebAppPool $appPoolName -Force)
 }
 else
 {
-    if($override)
+    if($override -eq $true)
     {
         (Remove-Website $websiteName -ErrorAction SilentlyContinue)
-        (Remove-WebAppPool $appPoolName)
-        (New-WebAppPool $appPoolName)
+        (Remove-WebAppPool $appPoolName -Force)
+        (New-WebAppPool $appPoolName -Force)
     }
 }
-
 #Create the website if it does not exist, or if it exists, act as per override parameter
-$websitesFolderPath = "IIS:\Sites\"
-$websitePath = $websitesFolderPath + $websiteName
-
-# add bindings
-$bindingsArray = @()
-foreach ($item in $bindings) 
-{
-    $binding = {protocol=$item.Key; bindingInformation=$item.Value}
-    $bindingsArray += $binding
+$websiteCount = 0
+try {
+    $websiteCount = (Get-Website $websiteName).Count
+}
+catch {
+    $websiteCount = 0
 }
 
-$websiteCount = (Get-Item $websitePath -ErrorAction SilentlyContinue)
 if($websiteCount -eq 0)
 {
-    (New-Item $websitePath -PhysicalPath $physicalPath -ApplicationPool $appPoolName -bindings $bindingsArray)
+    (New-WebSite -Name $websiteName -PhysicalPath $physicalPath -ApplicationPool $appPoolName -Force)
+    foreach ($item in $bindings.Keys) 
+    {
+        $ip, $port, $hostheader = $bindings[$item].split(":")
+        New-WebBinding -Name $websiteName -Protocol $item -IPAddress $ip -Port $port -HostHeader $hostheader -Force 
+    }
 }
 else
 {
-    if($override)
+    if($override -eq $true)
     {
-        (Remove-Website $websiteName)
-        (New-Item $websitePath -PhysicalPath $physicalPath -ApplicationPool $appPoolName -bindings $bindingsArray)
+        (Remove-Website $websiteName -Force)
+        (New-WebSite -Name $websiteName -PhysicalPath $physicalPath -ApplicationPool $appPoolName -Force)
+        foreach ($item in $bindings.Keys) 
+        {
+            $ip, $port, $hostheader = $bindings[$item].split(":")
+            New-WebBinding -Name $websiteName -Protocol $item -IPAddress $ip -Port $port -HostHeader $hostheader -Force 
+        }
     }
 }
 

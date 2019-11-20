@@ -2,6 +2,7 @@
 using DeploymentAssistant.Models;
 using log4net;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -25,20 +26,20 @@ namespace DeploymentAssistant
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopService.ToString(), new StopServiceActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258" },
-                Name = "Redis Service Stop",
-                ServiceName = "rediscacheservice",
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "MongoDb Service Stop",
+                ServiceName = "MongoDB",
                 Order = 1
-            }));
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartService.ToString(), new StartServiceActivity()
+            }));*/
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartService.ToString(), new StartServiceActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258" },
-                Name = "Redis Service Start",
-                ServiceName = "rediscacheservice",
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "MongoDb Service Start",
+                ServiceName = "MongoDB",
                 Order = 2
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
@@ -48,15 +49,15 @@ namespace DeploymentAssistant
                 DestinationPath = @"\\PTPLL695\BooFolder",
                 ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
                 SkipFolders = new List<string>() { @"\obj" }
-            }));
+            }));*/
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MoveFiles.ToString(), new MoveFilesActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258" },
+                Host = new HostInfo() { HostName = "PTPLL695.payoda.com" },
                 Name = "Move HeapImplementation Files",
                 Order = 3,
-                SourcePath = @"\\ptpll258\e$\TestDepAsst",
-                DestinationPath = @"\\ptpll695\d$\BooFolderNotShared",
+                SourcePath = @"\\ptpll258.payoda.com\e$\TestDepAsst",
+                DestinationPath = @"\\ptpll695.payoda.com\d$\BooFolderNotShared",
             }));*/
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.DeleteFiles.ToString(), new DeleteFilesActivity()
             {
@@ -66,6 +67,16 @@ namespace DeploymentAssistant
                 Order = 4,
                 DestinationPath = @"\\PTPLL686\d$\BooFolder",
             }));*/
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CreateIISWebsite.ToString(), new CreateIISWebsiteActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Name = "Create WebSite",
+                Order = 6,
+                WebsiteName = "TestPsWeb",
+                PhysicalPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.Web.External",
+                Bindings = new Hashtable() { { "http", "*:8086:" } }
+            }));
 
             logger.Info("Configuration Entries are initialized");
         }

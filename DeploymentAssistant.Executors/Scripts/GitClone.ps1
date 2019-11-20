@@ -23,7 +23,7 @@ if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 #change directory
 Set-Location -Path $localDestinationPath
 
-if(!$useCloneOrPull)
+if($useCloneOrPull -eq $false)
 {
     #run git clone
     git clone $repoUrl
