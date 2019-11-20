@@ -20,29 +20,13 @@ if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
     throw "EXCEPTION: Local destination path does not exist."
 }
 
-#get git path from $env:path
-$git_path = ""
-foreach($path in $env:Path.Split(';'))
-{
-    if($path.EndsWith("\Git\cmd", "CurrentCultureIgnoreCase"))
-    {
-        $git_path = Join-Path $path "git.exe"
-    }
-}
-
-if([string]::IsNullOrWhiteSpace($git_path))
-{
-    throw "EXCEPTION: Git is not installed. Git path is not found under PATH environment variable."
-}
-
 #change directory
 Set-Location -Path $localDestinationPath
 
 if($useCloneOrPull -eq $false)
 {
     #run git clone
-    #git clone $repoUrl
-    Start-Process -FilePath $git_path "clone ""$repoUrl"""
+    git clone $repoUrl --quiet
 }
 else
 {
@@ -53,12 +37,12 @@ else
         $projectFolder = $gitChildFolder.Parent.FullName
         #change directory
         Set-Location -Path $projectFolder
-        git pull $repoUrl
+        git pull $repoUrl --quiet
     }
     else
     {
         #run git clone
-        git clone $repoUrl
+        git clone $repoUrl --quiet
     }
 }
 
