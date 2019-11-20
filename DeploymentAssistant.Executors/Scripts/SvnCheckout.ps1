@@ -19,10 +19,12 @@ if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 #change directory
 Set-Location -Path $localDestinationPath
 
+$svnOutput = ""
+
 if($useCheckoutOrUpdate -eq $false)
 {
     #do only check out
-    svn --non-interactive --username $userName --password $pwd checkout $repoUrl
+    $svnOutput = (& "svn" "--non-interactive --username $userName --password $pwd checkout $repoUrl")
 }
 else
 {
@@ -33,12 +35,12 @@ else
         $projectFolder = $svnChildFolder.Parent.FullName
         #change directory
         Set-Location -Path $projectFolder
-        svn --non-interactive --username $userName --password $pwd update
+        $svnOutput = (& "svn" "--non-interactive --username $userName --password $pwd update")
     }
     else
     {
         #run git clone
-        svn --non-interactive --username $userName --password $pwd checkout $repoUrl
+        $svnOutput = (& "svn" "--non-interactive --username $userName --password $pwd checkout $repoUrl")
     }
 }
 
