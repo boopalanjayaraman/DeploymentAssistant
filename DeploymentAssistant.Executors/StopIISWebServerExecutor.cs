@@ -55,6 +55,12 @@ namespace DeploymentAssistant.Executors
         public override void Verify()
         {
             logger.Info("Stop IIS Web Server - Activity Verification Started.");
+            if (quitExecuting)
+            {
+                logger.Info("Activity Verification skipped. QuitExecuting Flag is true.");
+                this.Result = new ExecutionResult();
+                return;
+            }
             logger.Info("No verification method is implemented / was necessary.");
             this.Result = new ExecutionResult() { IsSuccess = true };
             logger.InfoFormat("Verification Finished. Result: {0}", this.Result.ToJson());

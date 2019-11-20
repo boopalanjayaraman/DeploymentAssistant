@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Management.Automation;
 
 namespace DeploymentAssistant.Executors
 {
@@ -45,6 +46,11 @@ namespace DeploymentAssistant.Executors
                 msBuildScript.Params.Add("solutionPath", activity.SolutionPath);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { msBuildScript }, true);
             }
+            catch(RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
+            }
             catch (ApplicationException appEx)
             {
                 logger.Error(appEx.Message);
@@ -59,6 +65,12 @@ namespace DeploymentAssistant.Executors
         public override void Verify()
         {
             logger.Info("MsBuild - Activity Verification Started.");
+            if (quitExecuting)
+            {
+                logger.Info("Activity Verification skipped. QuitExecuting Flag is true.");
+                this.Result = new ExecutionResult();
+                return;
+            }
             logger.Info("No verification method is implemented / was necessary.");
             this.Result = new ExecutionResult() { IsSuccess = true };
             logger.InfoFormat("Verification Finished. Result: {0}", this.Result.ToJson());

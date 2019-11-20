@@ -39,6 +39,12 @@ namespace DeploymentAssistant.Executors
                     return new StopIISWebServerExecutor(executionActivity, new PowershellManager());
                 case ExecutionType.StopIISWebsite:
                     return new StopIISWebsiteExecutor(executionActivity, new PowershellManager());
+                case ExecutionType.GitClone:
+                    return new GitCloneExecutor(executionActivity, new PowershellManager());
+                case ExecutionType.SvnCheckout:
+                    return new SvnCheckoutExecutor(executionActivity, new PowershellManager());
+                case ExecutionType.MsBuild:
+                    return new MsBuildExecutor(executionActivity, new PowershellManager());
                 default:
                     throw new NotImplementedException("No executors were found for this type.");
             }

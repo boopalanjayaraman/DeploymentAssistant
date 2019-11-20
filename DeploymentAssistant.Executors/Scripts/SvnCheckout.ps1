@@ -6,14 +6,14 @@ param([String]$localDestinationPath, [String]$repoUrl, [String]$userName="", [St
 
 if(([string]::IsNullOrWhiteSpace($localDestinationPath)) -or  ([string]::IsNullOrWhiteSpace($repoUrl)))
 {
-    return 0   
+    throw "EXCEPTION: LocalDestinationPath / RepoURL are mandatory."  
 }
 
-$targetInfo = (Get-Item $destinationPath)
+$targetInfo = (Get-Item $localDestinationPath)
 #check if source path exists
 if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 {
-    return 0
+    throw "EXCEPTION: localDestinationPath does not exist."
 }
 
 #change directory

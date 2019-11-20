@@ -5,6 +5,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,6 +44,11 @@ namespace DeploymentAssistant.Executors
                 deleteFilesScript.Params = new Dictionary<string, object>();
                 deleteFilesScript.Params.Add("destinationPath", activity.DestinationPath);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { deleteFilesScript }, true);
+            }
+            catch (RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
             }
             catch (ApplicationException appEx)
             {

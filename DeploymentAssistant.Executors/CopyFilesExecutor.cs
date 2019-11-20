@@ -5,6 +5,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +49,11 @@ namespace DeploymentAssistant.Executors
                 copyFilesScript.Params.Add("skipFoldersIfExist", activity.SkipFoldersIfExist.ToArray());
 
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { copyFilesScript }, true);
+            }
+            catch (RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
             }
             catch (ApplicationException appEx)
             {

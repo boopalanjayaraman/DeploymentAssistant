@@ -5,6 +5,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +46,11 @@ namespace DeploymentAssistant.Executors
                 createIISwebsiteScript.Params.Add("physicalPath", activity.PhysicalPath);
                 createIISwebsiteScript.Params.Add("override", activity.OverrideIfExists);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { createIISwebsiteScript }, true);
+            }
+            catch (RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
             }
             catch (ApplicationException appEx)
             {

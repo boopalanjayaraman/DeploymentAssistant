@@ -10,14 +10,29 @@ param([String]$localDestinationPath, [String]$repoUrl, [bool]$useCloneOrPull=$fa
 
 if(([string]::IsNullOrWhiteSpace($localDestinationPath)) -or  ([string]::IsNullOrWhiteSpace($repoUrl)))
 {
-    return 0   
+    throw "EXCEPTION: Local destination path / Repo Url are mandatory parameters."   
 }
 
-$targetInfo = (Get-Item $destinationPath)
+$targetInfo = (Get-Item $localDestinationPath)
 #check if source path exists
 if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 {
-    return 0
+    throw "EXCEPTION: Local destination path does not exist."
+}
+
+#get git path from $env:path
+$git_path = ""
+foreach($path in $env:Path.Split(';'))
+{
+    if($path.EndsWith("\Git\cmd", "CurrentCultureIgnoreCase"))
+    {
+        $git_path = Join-Path $path "git.exe"
+    }
+}
+
+if([string]::IsNullOrWhiteSpace($git_path))
+{
+    throw "EXCEPTION: Git is not installed. Git path is not found under PATH environment variable."
 }
 
 #change directory
@@ -26,7 +41,8 @@ Set-Location -Path $localDestinationPath
 if($useCloneOrPull -eq $false)
 {
     #run git clone
-    git clone $repoUrl
+    #git clone $repoUrl
+    Start-Process -FilePath $git_path "clone ""$repoUrl"""
 }
 else
 {

@@ -8,7 +8,7 @@ $sourceInfo = (Get-Item $sourcePath -Force)
 #check if source path exists
 if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
 {
-    return 0
+    throw "EXCEPTION: source path does not exist."
 }
 
 $isFile = $sourceInfo -is [System.IO.FileInfo]
@@ -24,7 +24,7 @@ else
     #validate the items
     if($sourceItems.Count -eq 0)
     {
-        return 0
+        throw "EXCEPTION: source path does not have any children to move."
     }
     $count = $sourceItems.Count
     Foreach ($item in $sourceItems)

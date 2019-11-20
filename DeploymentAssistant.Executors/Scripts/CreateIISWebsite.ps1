@@ -11,7 +11,7 @@ $appPoolName = $websiteName + 'Pool'
 
 if($bindings.Count -le 0)
 {
-    return 0
+    throw "EXCEPTION: Bindings information is necessary to create the site."
 }
 
 #Return zero if the directory does not exist. It has to exist physically before creating websites.
@@ -19,7 +19,7 @@ if($bindings.Count -le 0)
 $sourceItem = (Get-Item $physicalPath -Force)
 if(($null -eq $sourceItem) -or ($sourceItem.Count -eq 0))
 {
-    return 0
+    throw "EXCEPTION: Physical path is mandatory."
 }
 
 #Create the pool if it does not exist, or if it exists, act as per override parameter

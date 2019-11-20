@@ -51,18 +51,11 @@ namespace DeploymentAssistant.Executors
         /// </summary>
         /// <param name="appEx">application exception</param>
         /// <param name="activity">activity in context</param>
-        protected void HandleException(ApplicationException appEx, ExecutionActivity activity)
+        protected void HandleException(Exception appEx, ExecutionActivity activity)
         {
             _lastException = appEx;
-            //if (!activity.ContinueOnFailure)
-            //{
-            //    throw appEx;
-            //}
-            //else
-            //{
             quitExecuting = true;
             this.Result = new ExecutionResult() { IsSuccess = false, Message = appEx.Message };
-            //}
         }
 
 

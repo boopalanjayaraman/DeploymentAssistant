@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Management.Automation;
 
 namespace DeploymentAssistant.Executors
 {
@@ -47,6 +48,11 @@ namespace DeploymentAssistant.Executors
                 svnCheckoutScript.Params.Add("password", activity.Password);
                 svnCheckoutScript.Params.Add("useCheckoutOrUpdate", activity.UseCheckoutOrUpdate);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { svnCheckoutScript }, true);
+            }
+            catch (RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
             }
             catch (ApplicationException appEx)
             {

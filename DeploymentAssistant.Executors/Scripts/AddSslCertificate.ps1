@@ -10,7 +10,7 @@ Import-Module 'WebAdministration'
 #if it is not a pfx, return
 if(!$CertificateSharePath.ToLower().EndsWith(".pfx"))
 {
-    return 0
+    throw "EXCEPTION: certificate file should be a pfx file. (with private key)."
 }
 
 #copy the certificate to target machine first - IMPORTANT: certificate installation works only from local paths. 

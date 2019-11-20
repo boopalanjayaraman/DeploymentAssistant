@@ -4,14 +4,14 @@
 
 param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null)
 
-Write-Verbose "Running as $env:username" -Verbose
+Write-Verbose "Running as $env:username"
 
 $sourceInfo = (Get-Item $sourcePath -Force)
 
 #check if source path exists
 if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
 {
-    return 0
+    throw "EXCEPTION: source path does not exist."
 }
 
 $isFile = $sourceInfo -is [System.IO.FileInfo]
@@ -27,7 +27,7 @@ $sourceItems = (Get-ChildItem -Path $sourcePath -Recurse -Force).FullName
 #validate the items
 if($sourceItems.Count -eq 0)
 {
-    return 0
+    throw "EXCEPTION: source children items count: 0."
 }
 
 $count = 0

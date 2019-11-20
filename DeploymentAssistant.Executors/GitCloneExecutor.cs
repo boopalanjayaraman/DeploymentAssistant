@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Management.Automation;
 
 namespace DeploymentAssistant.Executors
 {
@@ -45,6 +46,11 @@ namespace DeploymentAssistant.Executors
                 gitCloneScript.Params.Add("repoUrl", activity.RepoUrl);
                 gitCloneScript.Params.Add("useCloneOrPull", activity.UseCloneOrPull);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { gitCloneScript }, true);
+            }
+            catch(RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
             }
             catch (ApplicationException appEx)
             {

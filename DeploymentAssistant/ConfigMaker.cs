@@ -67,7 +67,7 @@ namespace DeploymentAssistant
                 Order = 4,
                 DestinationPath = @"\\PTPLL686\d$\BooFolder",
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CreateIISWebsite.ToString(), new CreateIISWebsiteActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.CreateIISWebsite.ToString(), new CreateIISWebsiteActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
@@ -76,6 +76,25 @@ namespace DeploymentAssistant
                 WebsiteName = "TestPsWeb",
                 PhysicalPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.Web.External",
                 Bindings = new Hashtable() { { "http", "*:8086:" } }
+            }));*/
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Name = "Build JoinUs",
+                Order = 7,
+                LocalMsBuildPath = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe",
+                SolutionPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.sln",
+            }));*/
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Name = "Clone JoinUs",
+                Order = 7,
+                RepoUrl = "https://oauth2:sLMzHSrGvh9p9ERb4zM2@gitlab.payoda.com:8888/BlackPearl/JoinUs.git",
+                UseCloneOrPull = false,
+                LocalDestinationPath = "E:\\C\\TestProjects\\git_ps_test"
             }));
 
             logger.Info("Configuration Entries are initialized");

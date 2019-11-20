@@ -8,7 +8,7 @@ $targetInfo = (Get-Item $destinationPath)
 #check if source path exists
 if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 {
-    return 0
+    throw "EXCEPTION: destination path does not exist."
 }
 
 
@@ -24,7 +24,7 @@ else
     $targetItems = (Get-ChildItem -Path $destinationPath -Force).FullName
     if($targetItems.Count -eq 0)
     {
-        return 0
+        throw "EXCEPTION: destination path folder does not have any children."
     }
     $count = $targetItems.Count
     Foreach ($item in $targetItems)

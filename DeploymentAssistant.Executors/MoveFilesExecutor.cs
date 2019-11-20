@@ -5,6 +5,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,6 +45,11 @@ namespace DeploymentAssistant.Executors
                 moveFilesScript.Params.Add("sourcePath", activity.SourcePath);
                 moveFilesScript.Params.Add("destinationPath", activity.DestinationPath);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { moveFilesScript }, true);
+            }
+            catch (RemoteException rEx)
+            {
+                logger.Error(rEx.Message);
+                HandleException(rEx, activity);
             }
             catch (ApplicationException appEx)
             {
