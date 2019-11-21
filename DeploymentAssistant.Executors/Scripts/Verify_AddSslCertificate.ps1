@@ -29,27 +29,3 @@ else
     return 0
 }
 
-# if(!($null -eq $cert))
-# {
-#     $sites = $cert.Sites
-#     if(!($null -eq $sites))
-#     {
-#         $siteValues = $sites.Value
-#         if($siteValues -Contains $websiteName)
-#         {
-#             return 1
-#         }
-#         else
-#         {
-#             return 0
-#         }
-#     }
-#     else
-#     {
-#         return 0
-#     }
-# }
-# else
-# {
-#     return 0
-# }
