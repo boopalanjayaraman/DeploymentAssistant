@@ -70,12 +70,13 @@ namespace DeploymentAssistant
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.CreateIISWebsite.ToString(), new CreateIISWebsiteActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
-                Name = "Create WebSite",
+                Host = new HostInfo() { HostName = "PTPLL695.payoda.com" },
+                Name = "Create WebSite 695",
                 Order = 6,
-                WebsiteName = "TestPsWeb",
-                PhysicalPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.Web.External",
-                Bindings = new Hashtable() { { "http", "*:8086:" } }
+                WebsiteName = "TestPsWebDD",
+                PhysicalPath = "D:\\BooFolderNotShared2",
+                Bindings = new Hashtable() { { "http", "*:8087:" }},
+                OverrideIfExists = true
             }));*/
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
             {
@@ -86,7 +87,7 @@ namespace DeploymentAssistant
                 LocalMsBuildPath = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe",
                 SolutionPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.sln",
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
@@ -95,7 +96,34 @@ namespace DeploymentAssistant
                 RepoUrl = "https://oauth2:sLMzHSrGvh9p9ERb4zM2@gitlab.payoda.com:8888/BlackPearl/JoinUs.git",
                 UseCloneOrPull = false,
                 LocalDestinationPath = "E:\\C\\TestProjects\\git_ps_test"
+            }));*/
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.SvnCheckout.ToString(), new SvnCheckoutActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Name = "Clone TARG svn",
+                Order = 8,
+                RepoUrl = "https://svn.payoda.com/svn/TARG/",
+                UserName = "",
+                Password = "",
+                UseCheckoutOrUpdate = true,
+                LocalDestinationPath = "E:\\C\\TestProjects\\svn_ps_test1"
+            }));*/
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.AddSslCertificate.ToString(), new AddSslCertificateActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695.payoda.com" },
+                Name = "Create WebSite 695",
+                Order = 6,
+                WebsiteName = "TestPsWebDD",
+                CertificateSharePath = "D:\\BooCertFolder\\certTestPsWebDd.pfx",
+                CertificateThumbprint = "‎0705f4bedd2913afd6ce7d7312c0ac4c38d0bff6",
+                BindingIp = "",
+                CertificatePassword = "cert@1234",
+                Port = "10443",
+                StoreName = "WebHosting"
             }));
+
 
             logger.Info("Configuration Entries are initialized");
         }

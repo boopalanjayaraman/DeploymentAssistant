@@ -19,12 +19,20 @@ if(($null -eq $targetInfo) -or  ($targetInfo.Count -eq 0))
 #change directory
 Set-Location -Path $localDestinationPath
 
+$credentialsEmpty = [string]::IsNullOrWhiteSpace($userName) -or [string]::IsNullOrWhiteSpace($pwd)
 $svnOutput = ""
 
 if($useCheckoutOrUpdate -eq $false)
 {
     #do only check out
-    $svnOutput = (& "svn" "--non-interactive --username $userName --password $pwd checkout $repoUrl")
+    if($credentialsEmpty -eq $true)
+    {
+        $svnOutput = (& "svn" "--non-interactive" "checkout" """$repoUrl""")
+    }
+    else
+    {
+        $svnOutput = (& "svn" "--non-interactive" "--username" "$userName" "--password" "$pwd" "checkout" """$repoUrl""")
+    }
 }
 else
 {
@@ -35,13 +43,34 @@ else
         $projectFolder = $svnChildFolder.Parent.FullName
         #change directory
         Set-Location -Path $projectFolder
-        $svnOutput = (& "svn" "--non-interactive --username $userName --password $pwd update")
+        if($credentialsEmpty -eq $true)
+        {
+            $svnOutput = (& "svn" "--non-interactive" "update")
+        }
+        else
+        {
+            $svnOutput = (& "svn" "--non-interactive" "--username" "$userName" "--password" "$pwd" "update")
+        }
     }
     else
     {
-        #run git clone
-        $svnOutput = (& "svn" "--non-interactive --username $userName --password $pwd checkout $repoUrl")
+        #run svn checkout
+        if($credentialsEmpty -eq $true)
+        {
+            $svnOutput = (& "svn" "--non-interactive" "checkout" """$repoUrl""")
+        }
+        else
+        {
+            $svnOutput = (& "svn" "--non-interactive" "--username" "$userName" "--password" "$pwd" "checkout" """$repoUrl""")
+        }
     }
 }
 
-return 1
+if(($svnOutput -match "checked out revision") -or ($svnOutput -match "At revision"))
+{
+    return 1
+}
+else 
+{
+    throw ("EXCEPTION: {0}" -f $svnOutput)
+}

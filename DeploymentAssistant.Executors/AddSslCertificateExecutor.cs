@@ -42,9 +42,8 @@ namespace DeploymentAssistant.Executors
                 addSslCertificateScript.Script = this.ActivityScriptMap.ExecutionScript;
                 addSslCertificateScript.Params = new Dictionary<string, object>();
                 addSslCertificateScript.Params.Add("CertificateSharePath", activity.CertificateSharePath);
-                addSslCertificateScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint);
+                addSslCertificateScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint.Trim());
                 addSslCertificateScript.Params.Add("pwd", activity.CertificatePassword);
-                addSslCertificateScript.Params.Add("hostIp", activity.Host.HostName);
                 addSslCertificateScript.Params.Add("websiteName", activity.WebsiteName);
                 addSslCertificateScript.Params.Add("port", activity.Port);
                 addSslCertificateScript.Params.Add("hostHeader", activity.HostHeader);
@@ -98,7 +97,6 @@ namespace DeploymentAssistant.Executors
                 verifyScript.Params.Add("CertificateSharePath", activity.CertificateSharePath);
                 verifyScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint);
                 verifyScript.Params.Add("pwd", activity.CertificatePassword);
-                verifyScript.Params.Add("hostIp", activity.Host.HostName);
                 verifyScript.Params.Add("websiteName", activity.WebsiteName);
                 verifyScript.Params.Add("port", activity.Port);
                 verifyScript.Params.Add("hostHeader", activity.HostHeader);

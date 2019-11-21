@@ -42,7 +42,7 @@ else
     if($override -eq $true)
     {
         (Remove-Website $websiteName -ErrorAction SilentlyContinue)
-        (Remove-WebAppPool $appPoolName -Force)
+        (Remove-WebAppPool $appPoolName)
         (New-WebAppPool $appPoolName -Force)
     }
 }
@@ -57,11 +57,19 @@ catch {
 
 if($websiteCount -eq 0)
 {
-    (New-WebSite -Name $websiteName -PhysicalPath $physicalPath -ApplicationPool $appPoolName -Force)
+    $websiteCreated = $false
     foreach ($item in $bindings.Keys) 
     {
         $ip, $port, $hostheader = $bindings[$item].split(":")
-        New-WebBinding -Name $websiteName -Protocol $item -IPAddress $ip -Port $port -HostHeader $hostheader -Force 
+        if($websiteCreated -eq $false)
+        {
+            (New-WebSite -Name $websiteName -PhysicalPath $physicalPath -ApplicationPool $appPoolName -Port $port -IPAddress $ip -HostHeader $hostheader -Force)
+            $websiteCreated = $true
+        }
+        else
+        {
+            New-WebBinding -Name $websiteName -Protocol $item -IPAddress $ip -Port $port -HostHeader $hostheader -Force 
+        }
     }
 }
 else
@@ -69,11 +77,19 @@ else
     if($override -eq $true)
     {
         (Remove-Website $websiteName -Force)
-        (New-WebSite -Name $websiteName -PhysicalPath $physicalPath -ApplicationPool $appPoolName -Force)
+        $websiteCreated = $false
         foreach ($item in $bindings.Keys) 
         {
             $ip, $port, $hostheader = $bindings[$item].split(":")
-            New-WebBinding -Name $websiteName -Protocol $item -IPAddress $ip -Port $port -HostHeader $hostheader -Force 
+            if($websiteCreated -eq $false)
+            {
+                (New-WebSite -Name $websiteName -PhysicalPath $physicalPath -ApplicationPool $appPoolName -Port $port -IPAddress $ip -HostHeader $hostheader -Force)
+                $websiteCreated = $true
+            }
+            else
+            {
+                New-WebBinding -Name $websiteName -Protocol $item -IPAddress $ip -Port $port -HostHeader $hostheader -Force 
+            }
         }
     }
 }
