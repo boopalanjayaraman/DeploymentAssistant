@@ -53,11 +53,11 @@ namespace DeploymentAssistant
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MoveFiles.ToString(), new MoveFilesActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL695.payoda.com" },
+                Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Move HeapImplementation Files",
                 Order = 3,
-                SourcePath = @"\\ptpll258.payoda.com\e$\TestDepAsst",
-                DestinationPath = @"\\ptpll695.payoda.com\d$\BooFolderNotShared",
+                SourcePath = @"\\ptpll258\e$\TestDepAsst",
+                DestinationPath = @"\\ptpll695\d$\BooFolderNotShared",
             }));*/
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.DeleteFiles.ToString(), new DeleteFilesActivity()
             {
@@ -70,7 +70,7 @@ namespace DeploymentAssistant
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.CreateIISWebsite.ToString(), new CreateIISWebsiteActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL695.payoda.com" },
+                Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Create WebSite 695",
                 Order = 6,
                 WebsiteName = "TestPsWebDD",
@@ -81,7 +81,7 @@ namespace DeploymentAssistant
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Build JoinUs",
                 Order = 7,
                 LocalMsBuildPath = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe",
@@ -90,20 +90,20 @@ namespace DeploymentAssistant
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Clone JoinUs",
                 Order = 7,
-                RepoUrl = "https://oauth2:sLMzHSrGvh9p9ERb4zM2@gitlab.payoda.com:8888/BlackPearl/JoinUs.git",
+                RepoUrl = "https://gitlab.company.com/BlackPearl/JoinUs.git",
                 UseCloneOrPull = false,
                 LocalDestinationPath = "E:\\C\\TestProjects\\git_ps_test"
             }));*/
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.SvnCheckout.ToString(), new SvnCheckoutActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL258.payoda.com" },
+                Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Clone TARG svn",
                 Order = 8,
-                RepoUrl = "https://svn.payoda.com/svn/TARG/",
+                RepoUrl = "https://svn.company.com/svn/REPO/",
                 UserName = "",
                 Password = "",
                 UseCheckoutOrUpdate = true,
@@ -112,7 +112,7 @@ namespace DeploymentAssistant
             activityEntries.Add(new ActivityConfigEntry(ExecutionType.AddSslCertificate.ToString(), new AddSslCertificateActivity()
             {
                 ContinueOnFailure = false,
-                Host = new HostInfo() { HostName = "PTPLL695.payoda.com" },
+                Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Create WebSite 695",
                 Order = 6,
                 WebsiteName = "TestPsWebDD",
