@@ -44,6 +44,7 @@ namespace DeploymentAssistant.Executors
                 moveFilesScript.Params = new Dictionary<string, object>();
                 moveFilesScript.Params.Add("sourcePath", activity.SourcePath);
                 moveFilesScript.Params.Add("destinationPath", activity.DestinationPath);
+                moveFilesScript.Params.Add("addTimeStampForFolder", activity.AddTimeStampForFolder);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { moveFilesScript }, true);
             }
             catch (RemoteException rEx)

@@ -29,6 +29,11 @@ namespace DeploymentAssistant.Models
         public bool IsFile { get; set; }
 
         /// <summary>
+        /// Add timestamp for destination folder name (if destination path is a folder), when it gets created freshly (if it was not already there).
+        /// </summary>
+        public bool AddTimeStampForFolder { get; set; }
+
+        /// <summary>
         /// activity type
         /// </summary>
         public override ExecutionType Operation

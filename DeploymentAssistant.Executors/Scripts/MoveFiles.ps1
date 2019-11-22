@@ -1,7 +1,7 @@
 #Requires -Version 3.0
 # Script - function - MoveFiles
 
-param([String]$sourcePath, [String]$destinationPath)
+param([String]$sourcePath, [String]$destinationPath, [bool]$addTimeStampForFolder = $false)
 
 $sourceInfo = (Get-Item $sourcePath -Force)
 
@@ -14,19 +14,42 @@ if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
 $isFile = $sourceInfo -is [System.IO.FileInfo]
 if($isFile)
 {
+    #move the item
     Copy-Item -Path $sourcePath -Destination $destinationPath -Force -ErrorAction Stop
     Remove-Item -Path $sourcePath -Force
     return 1
 }
 else
 {
-    $sourceItems = (Get-ChildItem -Path $sourcePath -Force).Name #Not using Recurse flag
+    #enter FOLDER flow.
+    $sourceItems = (Get-ChildItem -Path $sourcePath -Force).Name # **NOT** using Recurse flag
     #validate the items
     if($sourceItems.Count -eq 0)
     {
         throw "EXCEPTION: source path does not have any children to move."
     }
     $count = $sourceItems.Count
+
+    #create the destination folder if it does not exist.
+    $destinationCurrent = (Get-Item $destinationPath -Force -ErrorAction SilentlyContinue)
+    if($null -eq $destinationCurrent)
+    {
+        #folder does not exist, create it.
+        New-Item -Path $destinationPath -ItemType "directory" -Force
+        #adding time stamp to folder only when we create it newly. If it was already existing, don't touch it.
+        if($addTimeStampForFolder -eq $true)
+        {
+            #add timestamp to destination folder
+            $currentItem = (Get-Item $destinationPath -Force)
+            $suffix = (Get-Date -Format "yyyyMMdd_HHmmss_ff")
+            $newName = "$($currentItem.Name)_$($suffix)"
+            Rename-Item -Path $destinationPath -NewName $newName -Force
+            $destinationPath = Join-Path "$($currentItem.Parent)" "$($newName)"
+        }
+    }
+    
+
+    #Start moving files
     Foreach ($item in $sourceItems)
     {
         $sourceItemPath = Join-Path $sourcePath $item

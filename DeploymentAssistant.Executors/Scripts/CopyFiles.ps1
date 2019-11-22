@@ -2,9 +2,7 @@
 
 #Script - Function - CopyFiles
 
-param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null)
-
-Write-Verbose "Running as $env:username"
+param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null, [bool]$addTimeStampForFolder = $false)
 
 $sourceInfo = (Get-Item $sourcePath -Force)
 
@@ -18,9 +16,27 @@ $isFile = $sourceInfo -is [System.IO.FileInfo]
 #if source is a file, then copy the file alone.
 if($isFile)
 {
-    #[System.IO.File]::Copy($sourcePath, $destinationPath, $true)
     Copy-Item -Path $sourcePath -Destination $destinationPath -Force
     return 1
+}
+
+#enter FOLDER flow.
+#create the destination folder if it does not exist.
+$destinationCurrent = (Get-Item $destinationPath -Force -ErrorAction SilentlyContinue)
+if($null -eq $destinationCurrent)
+{
+    #folder does not exist, create it.
+    New-Item -Path $destinationPath -ItemType "directory" -Force
+    #adding time stamp to folder only when we create it newly. If it was already existing, don't touch it.
+    if($addTimeStampForFolder -eq $true)
+    {
+        #add timestamp to destination folder
+        $currentItem = (Get-Item $destinationPath -Force)
+        $suffix = (Get-Date -Format "yyyyMMdd_HHmmss_ff")
+        $newName = "$($currentItem.Name)_$($suffix)"
+        Rename-Item -Path $destinationPath -NewName $newName -Force
+        $destinationPath = Join-Path "$($currentItem.Parent)" "$($newName)"
+    }
 }
 
 $sourceItems = (Get-ChildItem -Path $sourcePath -Recurse -Force).FullName
@@ -88,8 +104,6 @@ Foreach ($item in $sourceItems)
             }
         } 
         #Create the directory 
-        #Write-Verbose "Creating Directory $destinationItemPath" #-Verbose
-        #Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" #-Verbose
         New-Item -ItemType "directory" -Path $destinationItemPath -Force -ErrorAction Stop
         $count++
         
@@ -144,8 +158,6 @@ Foreach ($item in $sourceItems)
             }
         }
         #Copy the file 
-        #Write-Verbose "Copying Item from $item to $destinationItemPath" -Verbose
-        #Write-Verbose "destinationPath: $destinationPath, relativePath: $relativePath" -Verbose
         Copy-Item -Path $item -Destination $destinationItemPath -Force -ErrorAction Stop 
         $count++
     }

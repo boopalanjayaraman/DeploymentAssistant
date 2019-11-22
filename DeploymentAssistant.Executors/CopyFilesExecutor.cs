@@ -47,6 +47,7 @@ namespace DeploymentAssistant.Executors
                 copyFilesScript.Params.Add("excludeExtensions", activity.ExcludeExtensions.ToArray());
                 copyFilesScript.Params.Add("skipFolders", activity.SkipFolders.ToArray());
                 copyFilesScript.Params.Add("skipFoldersIfExist", activity.SkipFoldersIfExist.ToArray());
+                copyFilesScript.Params.Add("addTimeStampForFolder", activity.AddTimeStampForFolder);
 
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { copyFilesScript }, true);
             }
