@@ -66,11 +66,12 @@ else
     }
 }
 
-if(($svnOutput -match "checked out revision") -or ($svnOutput -match "At revision"))
+#check last exit code
+if($LASTEXITCODE -eq 0)
 {
     return 1
 }
 else 
 {
-    throw ("EXCEPTION: {0}" -f $svnOutput)
+    throw ("EXCEPTION: $($svnOutput)")
 }

@@ -78,7 +78,7 @@ namespace DeploymentAssistant
                 Bindings = new Hashtable() { { "http", "*:8087:" }},
                 OverrideIfExists = true
             }));*/
-            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
@@ -86,7 +86,9 @@ namespace DeploymentAssistant
                 Order = 7,
                 LocalMsBuildPath = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe",
                 SolutionPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.sln",
-            }));*/
+                BuildTargets = "Build",
+                BuildProperties = "Configuration=Release"
+            }));
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
             {
                 ContinueOnFailure = false,
@@ -109,7 +111,7 @@ namespace DeploymentAssistant
                 UseCheckoutOrUpdate = true,
                 LocalDestinationPath = "E:\\C\\TestProjects\\svn_ps_test1"
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.AddSslCertificate.ToString(), new AddSslCertificateActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.AddSslCertificate.ToString(), new AddSslCertificateActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL695" },
@@ -122,7 +124,7 @@ namespace DeploymentAssistant
                 CertificatePassword = "cert@1234",
                 Port = "10443",
                 StoreName = "WebHosting"
-            }));
+            }));*/
 
 
             logger.Info("Configuration Entries are initialized");

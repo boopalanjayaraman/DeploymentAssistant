@@ -2,7 +2,7 @@
 
 # Script - Function - MSBuild 
 # dependencies - msbuild 
-param([String]$localMsBuildPath, [String]$solutionPath)
+param([String]$localMsBuildPath, [String]$solutionPath, [String]$buildTargets = "", [String]$buildProperties = "")
 
 if(([string]::IsNullOrWhiteSpace($localMsBuildPath)) -or  ([string]::IsNullOrWhiteSpace($solutionPath)))
 {
@@ -28,12 +28,33 @@ if(($null -eq $msBuildItem) -or  ($msBuildItem.Count -eq 0))
     throw "EXCEPTION: LocalMSBuildPath does not exist."
 }
 
-#invoke build using & operator
-$result = & "$($localMsBuildPath)" "$($solutionPath)"
-
-if($result -Contains "Build Failed.")
+#set build targets
+if([string]::IsNullOrWhiteSpace($buildTargets))
 {
-    throw "EXCEPTION: Build FAILED."
+    $buildTargets = "-t:Build"
+}
+else
+{
+    $buildTargets = ("-t:{0}" -f $buildTargets)
+}
+
+#set build properties
+if([string]::IsNullOrWhiteSpace($buildProperties))
+{
+    $buildProperties = "-p:Configuration=Release"
+}
+else
+{
+    $buildProperties = ("-p:{0}" -f $buildProperties)
+}
+
+#invoke build using & operator
+$result = & "$($localMsBuildPath)" "$($solutionPath)" "$buildTargets" "$buildProperties" "-v:q" #verbosity:quiet
+
+#check last exit code
+if($LASTEXITCODE -ne 0)
+{
+    throw ("EXCEPTION: Build FAILED. Message - $($result)")
 }
 else
 {

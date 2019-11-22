@@ -44,6 +44,8 @@ namespace DeploymentAssistant.Executors
                 msBuildScript.Params = new Dictionary<string, object>();
                 msBuildScript.Params.Add("localMsBuildPath", activity.LocalMsBuildPath);
                 msBuildScript.Params.Add("solutionPath", activity.SolutionPath);
+                msBuildScript.Params.Add("buildTargets", activity.BuildTargets);
+                msBuildScript.Params.Add("buildProperties", activity.BuildProperties);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { msBuildScript }, true);
             }
             catch(RemoteException rEx)

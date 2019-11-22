@@ -45,6 +45,14 @@ else
         git clone $repoUrl --quiet
     }
 }
+#check last exit code
+if($LASTEXITCODE -eq 0)
+{
+    return 1
+}
+else
+{
+    return 0
+}
 
-return 1
 

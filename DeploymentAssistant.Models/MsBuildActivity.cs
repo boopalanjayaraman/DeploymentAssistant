@@ -22,6 +22,22 @@ namespace DeploymentAssistant.Models
         public string SolutionPath { get; set; }
 
         /// <summary>
+        /// Build targets
+        /// Ex: Build or Clean 
+        /// This will get transformed to -t:Build in the script. So, not necessary to prepend -t:
+        /// Multiple targets can be specified with semicolon. Ex. PrepareResources;Compile
+        /// </summary>
+        public string BuildTargets { get; set; }
+
+        /// <summary>
+        /// Build Properties
+        /// Ex: Configuration=Release
+        /// this will get transformed into -p:Configuration=Release in the script. Not necessary to prepend - p:
+        /// Multiple properties can be specified with semicolon. Ex. Configuration=Release;OutDir=bin\Prod
+        /// </summary>
+        public string BuildProperties { get; set; }
+
+        /// <summary>
         /// Self validating function
         /// </summary>
         /// <returns></returns>
