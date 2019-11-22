@@ -17,11 +17,6 @@ namespace DeploymentAssistant.Models
         public string WebsiteName { get; set; }
 
         /// <summary>
-        /// Port number
-        /// </summary>
-        public string Port { get; set; }
-
-        /// <summary>
         /// activity type
         /// </summary>
         public override ExecutionType Operation

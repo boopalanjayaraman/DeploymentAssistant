@@ -16,10 +16,6 @@ namespace DeploymentAssistant.Models
         /// </summary>
         public string WebsiteName { get; set; }
 
-        /// <summary>
-        /// Port number
-        /// </summary>
-        public string Port { get; set; }
 
         public StartIISWebsiteActivity()
         {

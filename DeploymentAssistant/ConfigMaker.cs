@@ -23,6 +23,121 @@ namespace DeploymentAssistant
 
         public ConfigMaker()
         {
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopService.ToString(), new StopServiceActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "MongoDb Service Stop",
+                ServiceName = "MongoDB",
+                Order = 1
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Clone JoinUs",
+                Order = 7,
+                RepoUrl = "https://gitlab.company.com/BlackPearl/JoinUs.git",
+                UseCloneOrPull = false,
+                LocalDestinationPath = "E:\\C\\TestProjects\\git_ps_test"
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Build JoinUs",
+                Order = 7,
+                LocalMsBuildPath = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe",
+                SolutionPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.sln",
+                BuildTargets = "Build",
+                BuildProperties = "Configuration=Release"
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Copy HeapImplementation Files",
+                Order = 3,
+                SourcePath = @"E:\TestDepAsst",
+                DestinationPath = @"\\PTPLL695\BooFolder",
+                ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
+                SkipFolders = new List<string>() { @"\obj" }
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CopyFiles.ToString(), new CopyFilesActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL258" },
+                Name = "Copy HeapImplementation Files",
+                Order = 3,
+                SourcePath = @"E:\TestDepAsst",
+                DestinationPath = @"\\PTPLL695\BooFolder",
+                ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
+                SkipFolders = new List<string>() { @"\obj" }
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.CreateIISWebsite.ToString(), new CreateIISWebsiteActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "Create WebSite 695",
+                Order = 6,
+                WebsiteName = "TestPsWebDD",
+                PhysicalPath = "D:\\BooFolderNotShared2",
+                Bindings = new Hashtable() { { "http", "*:8087:" } },
+                OverrideIfExists = true
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopIISWebsite.ToString(), new StopIISWebsiteActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "Stop WebSite 695",
+                Order = 6,
+                WebsiteName = "TestPsWebDD"
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.AddSslCertificate.ToString(), new AddSslCertificateActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "Create WebSite 695",
+                Order = 6,
+                WebsiteName = "TestPsWebDD",
+                CertificateSharePath = "D:\\BooCertFolder\\certTestPsWebDd.pfx",
+                CertificateThumbprint = "‎0705f4bedd2913afd6ce7d7312c0ac4c38d0bff6",
+                BindingIp = "",
+                CertificatePassword = "cert@1234",
+                Port = "10443",
+                StoreName = "WebHosting"
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartIISWebsite.ToString(), new StartIISWebsiteActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "Start WebSite 695",
+                Order = 6,
+                WebsiteName = "TestPsWebDD"
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopIISWebServer.ToString(), new StopIISWebServerActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "Stop IIS",
+                Order = 2
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartIISWebServer.ToString(), new StartIISWebServerActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "Start IIS",
+                Order = 2
+            }));
+            activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartService.ToString(), new StartServiceActivity()
+            {
+                ContinueOnFailure = false,
+                Host = new HostInfo() { HostName = "PTPLL695" },
+                Name = "MongoDb Service Start",
+                ServiceName = "MongoDB",
+                Order = 2
+            }));
+
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopService.ToString(), new StopServiceActivity()
             {
                 ContinueOnFailure = false,
@@ -78,7 +193,7 @@ namespace DeploymentAssistant
                 Bindings = new Hashtable() { { "http", "*:8087:" }},
                 OverrideIfExists = true
             }));*/
-            activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
+            /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.MsBuild.ToString(), new MsBuildActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
@@ -88,7 +203,7 @@ namespace DeploymentAssistant
                 SolutionPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.sln",
                 BuildTargets = "Build",
                 BuildProperties = "Configuration=Release"
-            }));
+            }));*/
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.GitClone.ToString(), new GitCloneActivity()
             {
                 ContinueOnFailure = false,

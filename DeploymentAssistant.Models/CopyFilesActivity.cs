@@ -45,12 +45,6 @@ namespace DeploymentAssistant.Models
         public bool AddTimeStampForFolder { get; set; }
 
         /// <summary>
-        /// Says if the copy activity is being done for a file rather than a folder. 
-        /// default:false
-        /// </summary>
-        public bool IsFile { get; set; }
-
-        /// <summary>
         /// activity type
         /// </summary>
         public override ExecutionType Operation
