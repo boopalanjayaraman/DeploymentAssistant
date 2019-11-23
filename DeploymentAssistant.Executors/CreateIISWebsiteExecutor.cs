@@ -43,7 +43,7 @@ namespace DeploymentAssistant.Executors
                 createIISwebsiteScript.Params = new Dictionary<string, object>();
                 createIISwebsiteScript.Params.Add("websiteName", activity.WebsiteName);
                 createIISwebsiteScript.Params.Add("bindings", activity.Bindings);
-                createIISwebsiteScript.Params.Add("physicalPath", activity.PhysicalPath);
+                createIISwebsiteScript.Params.Add("physicalPath", activity.LocalPhysicalPath);
                 createIISwebsiteScript.Params.Add("override", activity.OverrideIfExists);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { createIISwebsiteScript }, true);
             }
@@ -91,7 +91,7 @@ namespace DeploymentAssistant.Executors
                 verifyScript.Params = new Dictionary<string, object>();
                 verifyScript.Params.Add("websiteName", activity.WebsiteName);
                 verifyScript.Params.Add("bindings", activity.Bindings);
-                verifyScript.Params.Add("physicalPath", activity.PhysicalPath);
+                verifyScript.Params.Add("physicalPath", activity.LocalPhysicalPath);
                 verifyScript.Params.Add("override", activity.OverrideIfExists);
                 var result = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { verifyScript }, true);
                 status = result.FirstOrDefault() != null ? result[0].ToString() : "0";

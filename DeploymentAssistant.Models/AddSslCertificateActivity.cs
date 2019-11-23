@@ -14,7 +14,7 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// Full file path of the certificate to be applied
         /// </summary>
-        public string CertificateSharePath { get; set; }
+        public string CertificateLocalPath { get; set; }
 
         /// <summary>
         /// LocalMachine 
@@ -78,7 +78,7 @@ namespace DeploymentAssistant.Models
         /// <returns></returns>
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(CertificateSharePath)
+            return !string.IsNullOrWhiteSpace(CertificateLocalPath)
                 && !string.IsNullOrWhiteSpace(StoreName)
                 && !string.IsNullOrWhiteSpace(WebsiteName);
         }

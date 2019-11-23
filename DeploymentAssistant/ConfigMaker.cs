@@ -36,7 +36,7 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Clone JoinUs",
-                Order = 7,
+                Order = 2,
                 RepoUrl = "https://gitlab.company.com/BlackPearl/JoinUs.git",
                 UseCloneOrPull = false,
                 LocalDestinationPath = "E:\\C\\TestProjects\\git_ps_test"
@@ -46,7 +46,7 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Build JoinUs",
-                Order = 7,
+                Order = 3,
                 LocalMsBuildPath = "C:\\Program Files (x86)\\MSBuild\\12.0\\Bin\\MSBuild.exe",
                 SolutionPath = "E:\\C\\TestProjects\\git_ps\\JoinUs\\Payoda.JoinUs\\Payoda.JoinUs.sln",
                 BuildTargets = "Build",
@@ -57,7 +57,7 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Copy HeapImplementation Files",
-                Order = 3,
+                Order = 4,
                 SourcePath = @"E:\TestDepAsst",
                 DestinationPath = @"\\PTPLL695\BooFolder",
                 ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
@@ -68,7 +68,7 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL258" },
                 Name = "Copy HeapImplementation Files",
-                Order = 3,
+                Order = 5,
                 SourcePath = @"E:\TestDepAsst",
                 DestinationPath = @"\\PTPLL695\BooFolder",
                 ExcludeExtensions = new List<string>() { ".cs", ".pdb" },
@@ -81,7 +81,7 @@ namespace DeploymentAssistant
                 Name = "Create WebSite 695",
                 Order = 6,
                 WebsiteName = "TestPsWebDD",
-                PhysicalPath = "D:\\BooFolderNotShared2",
+                LocalPhysicalPath = "D:\\BooFolderNotShared2",
                 Bindings = new Hashtable() { { "http", "*:8087:" } },
                 OverrideIfExists = true
             }));
@@ -98,9 +98,9 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Create WebSite 695",
-                Order = 6,
+                Order = 7,
                 WebsiteName = "TestPsWebDD",
-                CertificateSharePath = "D:\\BooCertFolder\\certTestPsWebDd.pfx",
+                CertificateLocalPath = "D:\\BooCertFolder\\certTestPsWebDd.pfx",
                 CertificateThumbprint = "‎0705f4bedd2913afd6ce7d7312c0ac4c38d0bff6",
                 BindingIp = "",
                 CertificatePassword = "cert@1234",
@@ -112,7 +112,7 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Start WebSite 695",
-                Order = 6,
+                Order = 8,
                 WebsiteName = "TestPsWebDD"
             }));
             activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopIISWebServer.ToString(), new StopIISWebServerActivity()
@@ -120,14 +120,14 @@ namespace DeploymentAssistant
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Stop IIS",
-                Order = 2
+                Order = 9
             }));
             activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartIISWebServer.ToString(), new StartIISWebServerActivity()
             {
                 ContinueOnFailure = false,
                 Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "Start IIS",
-                Order = 2
+                Order = 10
             }));
             activityEntries.Add(new ActivityConfigEntry(ExecutionType.StartService.ToString(), new StartServiceActivity()
             {
@@ -135,7 +135,7 @@ namespace DeploymentAssistant
                 Host = new HostInfo() { HostName = "PTPLL695" },
                 Name = "MongoDb Service Start",
                 ServiceName = "MongoDB",
-                Order = 2
+                Order = 11
             }));
 
             /*activityEntries.Add(new ActivityConfigEntry(ExecutionType.StopService.ToString(), new StopServiceActivity()

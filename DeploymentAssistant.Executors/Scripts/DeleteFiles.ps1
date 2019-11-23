@@ -22,10 +22,10 @@ if($isFile)
 else
 {
     $targetItems = (Get-ChildItem -Path $destinationPath -Force).FullName
-    if($targetItems.Count -eq 0)
-    {
-        throw "EXCEPTION: destination path folder does not have any children."
-    }
+    # if($targetItems.Count -eq 0)
+    # {
+    #     throw "EXCEPTION: destination path folder does not have any children."
+    # }
     $count = $targetItems.Count
     Foreach ($item in $targetItems)
     {

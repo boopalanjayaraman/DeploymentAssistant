@@ -26,7 +26,7 @@ namespace DeploymentAssistant.Models
         /// <summary>
         /// local folder path to which the website is to be mapped
         /// </summary>
-        public string PhysicalPath { get; set; }
+        public string LocalPhysicalPath { get; set; }
 
         /// <summary>
         /// If the web site already exists, update the settings rather than stopping.
@@ -57,7 +57,7 @@ namespace DeploymentAssistant.Models
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(WebsiteName)
-                && !string.IsNullOrWhiteSpace(PhysicalPath)
+                && !string.IsNullOrWhiteSpace(LocalPhysicalPath)
                 && Bindings != null
                 && Bindings.Count > 0;
         }

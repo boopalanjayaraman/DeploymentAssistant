@@ -5,7 +5,7 @@ param([String]$destinationPath)
 
 $targetItems = (Get-ChildItem -Path $destinationPath -ErrorAction SilentlyContinue).FullName
 $count = $targetItems.Count
-if($null -eq $targetItems)
+if($null -ne $targetItems)
 {
 	return 0
 }
