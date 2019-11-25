@@ -44,7 +44,7 @@ else
             $suffix = (Get-Date -Format "yyyyMMdd_HHmmss_ff")
             $newName = "$($currentItem.Name)_$($suffix)"
             Rename-Item -Path $destinationPath -NewName $newName -Force
-            $destinationPath = Join-Path "$($currentItem.Parent)" "$($newName)"
+            $destinationPath = Join-Path "$($currentItem.Parent.FullName)" "$($newName)"
         }
     }
     
