@@ -58,7 +58,9 @@ namespace DeploymentAssistant.Executors
                 {
                     powershell.AddScript(script);
                 }
+                //// Invoke the script
                 var results = powershell.Invoke();
+                //// Collect the output information
                 logger.Info("Invoked the script(s).");
                 ThrowPSExecutionError(powershell);
                 runspace.Close();
@@ -78,6 +80,7 @@ namespace DeploymentAssistant.Executors
 
         private void ThrowPSExecutionError(PowerShell powershell, bool throwEx = true)
         {
+            //// Check if there are error(s), and if so, prepare to throw it
             if (powershell.Streams.Error.Count > 0)
             {
                 StringBuilder builder = new StringBuilder();
@@ -85,6 +88,7 @@ namespace DeploymentAssistant.Executors
                 {
                     builder.AppendLine(error.ToString());
                 }
+                //// Include any debug information as well for diagnosing purposes.
                 if(powershell.Streams.Debug.Count > 0)
                 {
                     builder.AppendLine("Debug Information.");
@@ -93,6 +97,7 @@ namespace DeploymentAssistant.Executors
                 {
                     builder.AppendLine(debugInfo.ToString());
                 }
+                //// Include verbose information too for diagnosing purposes.
                 if (powershell.Streams.Verbose.Count > 0)
                 {
                     builder.AppendLine("Verbose Information.");
@@ -101,6 +106,7 @@ namespace DeploymentAssistant.Executors
                 {
                     builder.AppendLine(verbose.ToString());
                 }
+                //// throw the exception
                 var errorMessage = string.Format("PowerShell ScriptExecution Error: {0}", builder.ToString());
                 if (throwEx)
                 {
@@ -133,7 +139,9 @@ namespace DeploymentAssistant.Executors
                 {
                     powershell.AddScript(commandScript);
                 }
+                //// Invoke the script
                 var results = powershell.Invoke();
+                //// Collect the output information
                 response = results[0] != null ? results[0].ToString() : string.Empty;
                 logger.Info("Invoked the scripts. Response received.");
                 ThrowPSExecutionError(powershell, throwEx);
@@ -162,7 +170,9 @@ namespace DeploymentAssistant.Executors
                 {
                     powershell.AddScript(commandScript);
                 }
+                //// Invoke the script
                 var results = powershell.Invoke();
+                //// Collect the output information
                 results.ToList().ForEach(pso =>
                 {
                     response.Add(pso);
@@ -175,6 +185,14 @@ namespace DeploymentAssistant.Executors
             return response;
         }
 
+        /// <summary>
+        /// This version of execute commands takes in scripts and parameters for them respectively 
+        /// Executes the scripts and returns the output
+        /// </summary>
+        /// <param name="remoteComputer">remote host name in which script will be executed</param>
+        /// <param name="commandScripts">scripts list</param>
+        /// <param name="throwEx">when true, any error will be thrown</param>
+        /// <returns>the output, collection of objects from PSObjects </returns>
         public Collection<object> ExecuteCommands(string remoteComputer, List<ScriptWithParameters> commandScripts, bool throwEx = true)
         {
             Runspace runspace = GetRunspace(remoteComputer);
@@ -202,10 +220,12 @@ namespace DeploymentAssistant.Executors
                         }
                     }
                 }
+                //// Invoke the script
                 var results = powershell.Invoke();
+                //// Collect the output information
                 results.ToList().ForEach(pso =>
                 {
-                    response.Add(pso);
+                    response.Add(pso.BaseObject);
                 });
                 logger.Info("Invoked the script(s).");
                 ThrowPSExecutionError(powershell);

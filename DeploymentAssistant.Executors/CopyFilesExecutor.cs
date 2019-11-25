@@ -3,6 +3,7 @@ using DeploymentAssistant.Executors.Models;
 using DeploymentAssistant.Models;
 using log4net;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
@@ -50,6 +51,16 @@ namespace DeploymentAssistant.Executors
                 copyFilesScript.Params.Add("addTimeStampForFolder", activity.AddTimeStampForFolder);
 
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { copyFilesScript }, true);
+                if((response.FirstOrDefault() != null)
+                    && (response.FirstOrDefault() is Hashtable))
+                {
+                    //// additional details are there in the result
+                    var details = response.FirstOrDefault() as Hashtable;
+                    if(details.ContainsKey("DestinationPath"))
+                    {
+                        activity.DestinationPath = details["DestinationPath"].ToString();
+                    }
+                }
             }
             catch (RemoteException rEx)
             {

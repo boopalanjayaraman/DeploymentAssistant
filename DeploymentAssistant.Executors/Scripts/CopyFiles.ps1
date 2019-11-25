@@ -5,6 +5,7 @@
 param([String]$sourcePath, [String]$destinationPath, [String[]]$excludeExtensions=$null, [String[]]$skipFolders=$null, [String[]]$skipFoldersIfExist=$null, [bool]$addTimeStampForFolder = $false)
 
 $sourceInfo = (Get-Item $sourcePath -Force)
+$originalDestinationPath = $destinationPath
 
 #check if source path exists
 if(($null -eq $sourceInfo) -or  ($sourceInfo.Count -eq 0))
@@ -26,8 +27,10 @@ $destinationCurrent = (Get-Item $destinationPath -Force -ErrorAction SilentlyCon
 if($null -eq $destinationCurrent)
 {
     #folder does not exist, create it.
-    New-Item -Path $destinationPath -ItemType "directory" -Force
-    #adding time stamp to folder only when we create it newly. If it was already existing, don't touch it.
+    New-Item -Path $destinationPath -ItemType "directory" -Force | Out-Null 
+    # Creating directory always returns output to the execution pipeline, and affects the return values. 
+    # Hence suppressing them with Out-Null
+    # adding time stamp to folder only when we create it newly. If it was already existing, don't touch it.
     if($addTimeStampForFolder -eq $true)
     {
         #add timestamp to destination folder
@@ -104,7 +107,9 @@ Foreach ($item in $sourceItems)
             }
         } 
         #Create the directory 
-        New-Item -ItemType "directory" -Path $destinationItemPath -Force -ErrorAction Stop
+        New-Item -ItemType "directory" -Path $destinationItemPath -Force -ErrorAction Stop | Out-Null 
+        # Creating directory always returns output to the execution pipeline, and affects the return values. 
+        # Hence suppressing them with Out-Null
         $count++
         
     }
@@ -162,4 +167,12 @@ Foreach ($item in $sourceItems)
         $count++
     }
 }
-return $count
+
+[HashTable]$result = @{}
+$result.Count = [int]$count
+if($originalDestinationPath -ne $destinationPath)
+{
+    #if we created a new folder as part of this script, we need to send this destination path for verification.
+    $result.DestinationPath = $destinationPath
+}
+return $result

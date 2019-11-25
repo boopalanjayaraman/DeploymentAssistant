@@ -34,9 +34,11 @@ else
     $destinationCurrent = (Get-Item $destinationPath -Force -ErrorAction SilentlyContinue)
     if($null -eq $destinationCurrent)
     {
-        #folder does not exist, create it.
-        New-Item -Path $destinationPath -ItemType "directory" -Force
-        #adding time stamp to folder only when we create it newly. If it was already existing, don't touch it.
+        # folder does not exist, create it.
+        # (Creating directory always returns output to the execution pipeline, and affects the return values. 
+        # Hence suppressing them with Out-Null)
+        New-Item -Path $destinationPath -ItemType "directory" -Force | Out-Null 
+        # adding time stamp to folder only when we create it newly. If it was already existing, don't touch it.
         if($addTimeStampForFolder -eq $true)
         {
             #add timestamp to destination folder
