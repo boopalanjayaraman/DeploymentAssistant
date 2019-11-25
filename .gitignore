@@ -1,2 +1,4 @@
 Debug
 /DeploymentAssistant.Executors/DeploymentAssistant.Executors.csproj.user
+TestResults
+/*.suo

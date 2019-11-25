@@ -39,7 +39,7 @@ namespace DeploymentAssistant
                     }
                 }
                 //// Call pipeline Maker
-                PipelineMaker pipelineMaker = new PipelineMaker();
+                PipelineMaker pipelineMaker = new PipelineMaker(new FileOperations());
                 pipelineMaker.Load(fileName);
             }
             else if (mode.Equals(DumpConfigMode, StringComparison.CurrentCultureIgnoreCase))
@@ -51,7 +51,7 @@ namespace DeploymentAssistant
                     fileName = args.ElementAt(args_index_file);
                 }
                 //// Call config Maker
-                ConfigMaker configMaker = new ConfigMaker();
+                ConfigMaker configMaker = new ConfigMaker(new FileOperations());
                 configMaker.Dump(fileName);
             }
 

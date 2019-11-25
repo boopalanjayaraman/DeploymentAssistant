@@ -4,7 +4,6 @@ using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +18,18 @@ namespace DeploymentAssistant
         List<ActivityConfigEntry> activityEntries = new List<ActivityConfigEntry>();
         ILog logger = LogManager.GetLogger(typeof(PipelineMaker));
 
-        public PipelineMaker()
-        {
+        /// <summary>
+        /// FileOperations 
+        /// </summary>
+        public IFileOperations FileOperations { get; private set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public PipelineMaker(IFileOperations fileOperations)
+        {
+            //// Initialize
+            this.FileOperations = fileOperations;
         }
 
         /// <summary>
@@ -42,13 +50,13 @@ namespace DeploymentAssistant
                 activityConfigurationFile += ".json";
             }
 
-            if (!File.Exists(activityConfigurationFile))
+            if (!FileOperations.Exists(activityConfigurationFile))
             {
                 logger.Info("Config file with given name / path does not exist.");
                 return;
             }
             //// Load config
-            var configJson = File.ReadAllText(activityConfigurationFile);
+            var configJson = FileOperations.ReadAllText(activityConfigurationFile);
             JsonSerializerSettings settings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto };
             List<ActivityConfigEntry> activities = JsonConvert.DeserializeObject<List<ActivityConfigEntry>>(configJson, settings);
 

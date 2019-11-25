@@ -65,6 +65,7 @@ namespace DeploymentAssistant
         /// <param name="activitySetting">setting - equivalent activity object</param>
         public ActivityConfigEntry(string operation, ExecutionActivity settings)
         {
+            /// Do not change this assigning order - so the property validations happen in order.
             this.Operation = operation;
             this.Settings = settings;
         }

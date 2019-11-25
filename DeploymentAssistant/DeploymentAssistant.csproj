@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="ActivityConfigEntry.cs" />
     <Compile Include="ConfigMaker.cs" />
+    <Compile Include="FileOperations.cs" />
+    <Compile Include="IFileOperations.cs" />
     <Compile Include="PipelineMaker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
