@@ -69,6 +69,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ActivityConfigEntryTest.cs" />
+    <Compile Include="PipelineMakerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigMakerTest.cs" />
   </ItemGroup>
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\DeploymentAssistant.Common\DeploymentAssistant.Common.csproj">
       <Project>{cd60ef05-8ee7-4c43-b115-83710627da27}</Project>
       <Name>DeploymentAssistant.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeploymentAssistant.Executors\DeploymentAssistant.Executors.csproj">
+      <Project>{3fd3ca83-5271-462b-98a6-38fcc07a6746}</Project>
+      <Name>DeploymentAssistant.Executors</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeploymentAssistant.Models\DeploymentAssistant.Models.csproj">
       <Project>{71e4c09f-c10e-43bd-843a-d20d04692f2d}</Project>
@@ -87,6 +92,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

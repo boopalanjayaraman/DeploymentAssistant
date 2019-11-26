@@ -15,7 +15,6 @@ namespace DeploymentAssistant
     /// </summary>
     internal class PipelineMaker
     {
-        List<ActivityConfigEntry> activityEntries = new List<ActivityConfigEntry>();
         ILog logger = LogManager.GetLogger(typeof(PipelineMaker));
 
         /// <summary>
@@ -23,19 +22,22 @@ namespace DeploymentAssistant
         /// </summary>
         public IFileOperations FileOperations { get; private set; }
 
+        public IPipeline Pipeline { get; private set; }
+
         /// <summary>
         /// constructor
         /// </summary>
-        public PipelineMaker(IFileOperations fileOperations)
+        public PipelineMaker(IFileOperations fileOperations, IPipeline pipeline)
         {
             //// Initialize
             this.FileOperations = fileOperations;
+            this.Pipeline = pipeline;
         }
 
         /// <summary>
         /// Loads config and creates pipeline
         /// </summary>
-        /// <param name="activityConfigurationFile"></param>
+        /// <param name="activityConfigurationFile">path of configuration file containing activity entries</param>
         public void Load(string activityConfigurationFile = "")
         {
             logger.Info("Starting pipeline - config load operation.");
@@ -61,19 +63,18 @@ namespace DeploymentAssistant
             List<ActivityConfigEntry> activities = JsonConvert.DeserializeObject<List<ActivityConfigEntry>>(configJson, settings);
 
             //// Create pipeline
-            IPipeline pipeline = new ExecutionPipeline();
-            pipeline.StepStarted += pipeline_StepStarted;
-            pipeline.StepCompleted += pipeline_StepCompleted;
+            this.Pipeline.StepStarted += pipeline_StepStarted;
+            this.Pipeline.StepCompleted += pipeline_StepCompleted;
 
             foreach(var executionStep in activities)
             {
                 var activity = executionStep.Settings;
-                pipeline.Add(activity);
+                this.Pipeline.Add(activity);
             }
             logger.Info("Pipeline is created and loaded with settings.");
 
             //// Run the pipeline
-            pipeline.Run();
+            this.Pipeline.Run();
         }
 
         void pipeline_StepCompleted(object sender, EventArgs e)

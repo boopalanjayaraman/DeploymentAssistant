@@ -8,6 +8,7 @@ using DeploymentAssistant.Common;
 using log4net;
 using log4net.Config;
 using System.IO;
+using DeploymentAssistant.Executors;
 
 namespace DeploymentAssistant
 {
@@ -39,7 +40,7 @@ namespace DeploymentAssistant
                     }
                 }
                 //// Call pipeline Maker
-                PipelineMaker pipelineMaker = new PipelineMaker(new FileOperations());
+                PipelineMaker pipelineMaker = new PipelineMaker(new FileOperations(), new ExecutionPipeline());
                 pipelineMaker.Load(fileName);
             }
             else if (mode.Equals(DumpConfigMode, StringComparison.CurrentCultureIgnoreCase))
