@@ -41,8 +41,8 @@ namespace DeploymentAssistant.Executors
                 var addSslCertificateScript = new ScriptWithParameters();
                 addSslCertificateScript.Script = this.ActivityScriptMap.ExecutionScript;
                 addSslCertificateScript.Params = new Dictionary<string, object>();
-                addSslCertificateScript.Params.Add("CertificateSharePath", activity.CertificateLocalPath);
-                addSslCertificateScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint.Trim());
+                addSslCertificateScript.Params.Add("certificateLocalPath", activity.CertificateLocalPath);
+                addSslCertificateScript.Params.Add("certificateThumbprint", activity.CertificateThumbprint.Trim());
                 addSslCertificateScript.Params.Add("pwd", activity.CertificatePassword);
                 addSslCertificateScript.Params.Add("websiteName", activity.WebsiteName);
                 addSslCertificateScript.Params.Add("port", activity.Port);
@@ -94,8 +94,8 @@ namespace DeploymentAssistant.Executors
                 var verifyScript = new ScriptWithParameters();
                 verifyScript.Script = this.ActivityScriptMap.VerificationScript;
                 verifyScript.Params = new Dictionary<string, object>();
-                verifyScript.Params.Add("CertificateSharePath", activity.CertificateLocalPath);
-                verifyScript.Params.Add("CertificateThumbPrint", activity.CertificateThumbprint);
+                verifyScript.Params.Add("certificateLocalPath", activity.CertificateLocalPath);
+                verifyScript.Params.Add("certificateThumbprint", activity.CertificateThumbprint);
                 verifyScript.Params.Add("pwd", activity.CertificatePassword);
                 verifyScript.Params.Add("websiteName", activity.WebsiteName);
                 verifyScript.Params.Add("port", activity.Port);

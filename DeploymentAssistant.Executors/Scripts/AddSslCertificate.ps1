@@ -3,31 +3,31 @@
 
 # Script - Function - AddSslCertificate.ps1
 
-param ([String]$CertificateSharePath, [String]$CertificateThumbPrint, [String]$pwd, [String]$websiteName, [String]$port = "443", [String]$hostHeader = "", [String]$bindingIp = "", [String]$storeLocation = "LocalMachine", [String]$storeName = "WebHosting")
+param ([String]$certificateLocalPath, [String]$certificateThumbprint, [String]$pwd, [String]$websiteName, [String]$port = "443", [String]$hostHeader = "", [String]$bindingIp = "", [String]$storeLocation = "LocalMachine", [String]$storeName = "WebHosting")
 
 Import-Module 'WebAdministration'
 Import-Module 'PKI'
 
 #if it is not a pfx, return
-if(!$CertificateSharePath.ToLower().EndsWith(".pfx"))
+if(!$certificateLocalPath.ToLower().EndsWith(".pfx"))
 {
     throw "EXCEPTION: certificate file should be a pfx file. (with private key)."
 }
 
-$CertFileExists= (Get-Item $CertificateSharePath -Force -ErrorAction SilentlyContinue)
+$CertFileExists= (Get-Item $certificateLocalPath -Force -ErrorAction SilentlyContinue)
 
 if($null -eq $CertFileExists)
 {
     throw "EXCEPTION: certificate file does not exist."
 }
 
-$pathType = [System.Uri]$CertificateSharePath
+$pathType = [System.Uri]$certificateLocalPath
 if($pathType.IsUnc)
 {
     throw "EXCEPTION: Only Local paths can work well while adding a certificate with private key to store and mapping it to a website."
 }
 
-$TargetCopyPath = $CertificateSharePath
+$TargetCopyPath = $certificateLocalPath
 
 if(($null -eq $storeLocation) -or ([string]::IsNullOrWhiteSpace($storeLocation)))
 {
@@ -50,17 +50,14 @@ if($null -eq $thumbprint)
     throw "EXCEPTION: Some error happened during certificate import action."
 }
 
-if([System.String]::IsNullOrWhiteSpace($CertificateThumbPrint))
+if([System.String]::IsNullOrWhiteSpace($certificateThumbprint))
 {
-    $CertificateThumbPrint = $thumbprint
-}
-else
-{
-    $CertificateThumbPrint = $CertificateThumbPrint
+    $certificateThumbprint = $thumbprint
 }
 
+
 #add the binding to site with this ssl certificate's thumbprint
-$certPath = '{0}\{1}\{2}\{3}' -f 'cert:', "$storeLocation", "$storeName","$CertificateThumbPrint"
+$certPath = '{0}\{1}\{2}\{3}' -f 'cert:', "$storeLocation", "$storeName","$certificateThumbprint"
 
 $webBindingIp = ""
 if(($null -eq $bindingIp) -or ([String]::IsNullOrWhiteSpace($bindingIp)))

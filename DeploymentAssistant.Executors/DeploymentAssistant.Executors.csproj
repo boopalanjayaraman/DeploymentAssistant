@@ -59,7 +59,7 @@
     <Compile Include="DeleteFilesExecutor.cs" />
     <Compile Include="MoveFilesExecutor.cs" />
     <Compile Include="Models\ActivityScriptMap.cs" />
-    <Compile Include="ActivityScriptMapper.cs" />
+    <Compile Include="ActivityScriptProvider.cs" />
     <Compile Include="CopyFilesExecutor.cs" />
     <Compile Include="ExecutionPipeline.cs" />
     <Compile Include="ExecutorFactory.cs" />

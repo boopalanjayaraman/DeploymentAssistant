@@ -2,7 +2,7 @@
 #Requires -RunAsAdministrator
 # script - function - VerifyAddSslCertificate
 
-param ([String]$CertificateSharePath, [String]$CertificateThumbPrint, [String]$pwd, [String]$websiteName, [String]$port = "443", [String]$hostHeader = "", [String]$bindingIp = "", [String]$storeLocation = "LocalMachine", [String]$storeName = "WebHosting")
+param ([String]$certificateLocalPath, [String]$certificateThumbprint, [String]$pwd, [String]$websiteName, [String]$port = "443", [String]$hostHeader = "", [String]$bindingIp = "", [String]$storeLocation = "LocalMachine", [String]$storeName = "WebHosting")
 
 Import-Module 'WebAdministration'
 Import-Module 'PKI'
