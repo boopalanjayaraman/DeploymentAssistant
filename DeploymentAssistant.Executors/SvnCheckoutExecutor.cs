@@ -45,7 +45,7 @@ namespace DeploymentAssistant.Executors
                 svnCheckoutScript.Params.Add("localDestinationPath", activity.LocalDestinationPath);
                 svnCheckoutScript.Params.Add("repoUrl", activity.RepoUrl);
                 svnCheckoutScript.Params.Add("userName", activity.UserName);
-                svnCheckoutScript.Params.Add("password", activity.Password);
+                svnCheckoutScript.Params.Add("pwd", activity.Password);
                 svnCheckoutScript.Params.Add("useCheckoutOrUpdate", activity.UseCheckoutOrUpdate);
                 var response = _shellManager.ExecuteCommands(host, new List<ScriptWithParameters> { svnCheckoutScript }, true);
             }

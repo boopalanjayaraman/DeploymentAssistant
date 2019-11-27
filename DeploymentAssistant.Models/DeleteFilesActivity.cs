@@ -17,12 +17,6 @@ namespace DeploymentAssistant.Models
         public string DestinationPath { get; set; }
 
         /// <summary>
-        /// Says if the copy activity is being done for a file rather than a folder. 
-        /// default:false
-        /// </summary>
-        public bool IsFile { get; set; }
-
-        /// <summary>
         /// activity type
         /// </summary>
         public override ExecutionType Operation

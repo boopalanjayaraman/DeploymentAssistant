@@ -13,6 +13,23 @@ namespace DeploymentAssistant.Executors.Tests
     public class AddSslCertificateExecutorTest
     {
         [TestMethod]
+        public void AddSslCertificateExecutor_Constructor_Sets_ActivityScriptAndVerificationScript()
+        {
+            //// Arrange
+            var activity = GetAddSslCertificateActivity();
+            var shellManagerMock = new Mock<IShellManager>(MockBehavior.Strict);
+
+            //// Act
+            var executor = new AddSslCertificateExecutor(activity, shellManagerMock.Object);
+
+            //// Assert
+            shellManagerMock.Verify();
+            Assert.IsNotNull(executor.ActivityScriptMap);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(executor.ActivityScriptMap.ExecutionScript));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(executor.ActivityScriptMap.VerificationScript));
+        }
+
+        [TestMethod]
         public void AddSslCertificateExecutor_Execute_CallsShellManager_WithGivenParameters()
         {
             //// Arrange
@@ -20,7 +37,7 @@ namespace DeploymentAssistant.Executors.Tests
             var shellManagerMock = new Mock<IShellManager>(MockBehavior.Strict);
             shellManagerMock.Setup(sm => sm.ExecuteCommands(
                                             It.Is<String>(s => IsSameHost(s, activity.Host.HostName)),
-                                            It.Is<List<ScriptWithParameters>>(paramList => ContainsParamsFromActivity(paramList.First(), (AddSslCertificateActivity) activity)),
+                                            It.Is<List<ScriptWithParameters>>(paramList => ContainsParamsFromActivity(paramList.First(), (AddSslCertificateActivity)activity)),
                                             true)).Returns(new Collection<object>());
             var executor = new AddSslCertificateExecutor(activity, shellManagerMock.Object);
 
@@ -44,6 +61,7 @@ namespace DeploymentAssistant.Executors.Tests
                 && addSslCertificateActivity.StoreName.Equals(parameters["storeName"].ToString(), StringComparison.CurrentCultureIgnoreCase)
                 && addSslCertificateActivity.Port.Equals(parameters["port"].ToString(), StringComparison.CurrentCultureIgnoreCase)
                 && addSslCertificateActivity.HostHeader.Equals(parameters["hostHeader"].ToString(), StringComparison.CurrentCultureIgnoreCase)
+                && !string.IsNullOrWhiteSpace(scriptWithParams.Script)
                 && parameters.Count == 9;
         }
 
@@ -69,6 +87,26 @@ namespace DeploymentAssistant.Executors.Tests
                 HostHeader = "",
                 StoreLocation = ""
             };
+        }
+
+        [TestMethod]
+        public void AddSslCertificateExecutor_Execute_Sets_IsSuccessToFalse_DuringException()
+        {
+            //// Arrange
+            var activity = GetAddSslCertificateActivity();
+            var shellManagerMock = new Mock<IShellManager>(MockBehavior.Strict);
+            shellManagerMock.Setup(sm => sm.ExecuteCommands(
+                                            It.Is<String>(s => IsSameHost(s, activity.Host.HostName)),
+                                            It.Is<List<ScriptWithParameters>>(paramList => ContainsParamsFromActivity(paramList.First(), (AddSslCertificateActivity)activity)),
+                                            true)).Throws(new ApplicationException("Some exception"));
+            var executor = new AddSslCertificateExecutor(activity, shellManagerMock.Object);
+
+            //// Act
+            executor.Execute();
+
+            //// Assert
+            shellManagerMock.Verify();
+            Assert.IsFalse(executor.Result.IsSuccess);
         }
 
         [TestMethod]

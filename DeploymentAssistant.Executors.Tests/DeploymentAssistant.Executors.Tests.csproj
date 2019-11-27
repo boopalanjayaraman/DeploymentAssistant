@@ -69,8 +69,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ActivityScriptProviderTest.cs" />
+    <Compile Include="CopyFilesExecutorTest.cs" />
     <Compile Include="AddSslCertificateExecutorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CreateIISWebsiteExecutorTest.cs" />
+    <Compile Include="DeleteFilesExecutorTest.cs" />
+    <Compile Include="GitCloneExecutorTest.cs" />
+    <Compile Include="MoveFilesExecutorTest.cs" />
+    <Compile Include="MsBuildExecutorTest.cs" />
+    <Compile Include="StartIISWebServerExecutorTest.cs" />
+    <Compile Include="StartIISWebsiteExecutorTest.cs" />
+    <Compile Include="StartServiceExecutorTest.cs" />
+    <Compile Include="StopIISWebServerExecutorTest.cs" />
+    <Compile Include="StopIISWebsiteExecutorTest.cs" />
+    <Compile Include="StopServiceExecutorTest.cs" />
+    <Compile Include="SvnCheckoutExecutorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeploymentAssistant.Common\DeploymentAssistant.Common.csproj">
