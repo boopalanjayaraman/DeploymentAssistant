@@ -10,7 +10,7 @@ namespace DeploymentAssistant.Executors.Models
     /// <summary>
     /// Data model for activity and script mapping
     /// </summary>
-    internal class ActivityScriptMap
+    public class ActivityScriptMap
     {
         /// <summary>
         /// Activity type

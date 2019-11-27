@@ -34,6 +34,11 @@ namespace DeploymentAssistant.Executors
         }
 
         /// <summary>
+        /// Executor provider 
+        /// </summary>
+        private IExecutorProvider _executorProvider = null;
+
+        /// <summary>
         /// event for each step added
         /// </summary>
         public event EventHandler StepAdded;
@@ -51,13 +56,24 @@ namespace DeploymentAssistant.Executors
         /// <summary>
         /// constructor
         /// </summary>
-        public ExecutionPipeline()
+        internal ExecutionPipeline(IExecutorProvider executorProvider)
         {
             if (this.Steps == null)
             {
                 this.Steps = new List<ExecutionActivity>();
             }
+            this._executorProvider = executorProvider;
         }
+
+        /// <summary>
+        /// Creates an instance of the pipeline for client 
+        /// </summary>
+        /// <returns></returns>
+        public static ExecutionPipeline GetExecutionPipeline()
+        {
+            return new ExecutionPipeline(new ExecutorProvider());
+        }
+
 
         /// <summary>
         /// Adding a step to pipeline
@@ -88,7 +104,7 @@ namespace DeploymentAssistant.Executors
                 throw new ApplicationException("Pipeline Validation Failure: Activity is null.");
             }
             logger.InfoFormat("Validating step: {0}", step.Name);
-            if (string.IsNullOrWhiteSpace(step.Host.HostName))
+            if ((step.Host == null) || string.IsNullOrWhiteSpace(step.Host.HostName))
             {
                 throw new ApplicationException("Pipeline Validation Failure: Host details are unavailable.");
             }
@@ -104,9 +120,9 @@ namespace DeploymentAssistant.Executors
             {
                 logger.InfoFormat("initiating step: {0}", activityStep.Name);
                 logger.InfoFormat("Activity Details: {0}", activityStep.ToJson());
-                var executor = ExecutorProvider.GetExecutor(activityStep);
+                var executor = _executorProvider.GetExecutor(activityStep);
                 //// publish event - for starting the step
-                if(StepStarted != null)
+                if (StepStarted != null)
                 {
                     StepStarted(this, new ActivityEventArgs() { Activity = activityStep });
                 }
@@ -119,7 +135,7 @@ namespace DeploymentAssistant.Executors
                 //// TODO: do the common error handling here. Throw exceptions inside the class.
                 var result = executor.Result;
                 //// publish event - for completing the step
-                if(StepCompleted != null)
+                if (StepCompleted != null)
                 {
                     StepCompleted(this, new ActivityEventArgs() { Activity = activityStep, Result = result });
                 }

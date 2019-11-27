@@ -71,6 +71,7 @@
     <Compile Include="ActivityScriptProviderTest.cs" />
     <Compile Include="CopyFilesExecutorTest.cs" />
     <Compile Include="AddSslCertificateExecutorTest.cs" />
+    <Compile Include="ExecutionPipelineTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CreateIISWebsiteExecutorTest.cs" />
     <Compile Include="DeleteFilesExecutorTest.cs" />

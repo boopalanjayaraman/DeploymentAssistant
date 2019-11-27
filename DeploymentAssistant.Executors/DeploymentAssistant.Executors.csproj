@@ -62,7 +62,7 @@
     <Compile Include="ActivityScriptProvider.cs" />
     <Compile Include="CopyFilesExecutor.cs" />
     <Compile Include="ExecutionPipeline.cs" />
-    <Compile Include="ExecutorFactory.cs" />
+    <Compile Include="ExecutorProvider.cs" />
     <Compile Include="IExecutor.cs" />
     <Compile Include="IPipeline.cs" />
     <Compile Include="PowershellManager.cs" />

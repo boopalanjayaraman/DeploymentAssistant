@@ -40,7 +40,8 @@ namespace DeploymentAssistant
                     }
                 }
                 //// Call pipeline Maker
-                PipelineMaker pipelineMaker = new PipelineMaker(new FileOperations(), new ExecutionPipeline());
+                var executionPipeline = ExecutionPipeline.GetExecutionPipeline();
+                PipelineMaker pipelineMaker = new PipelineMaker(new FileOperations(), executionPipeline);
                 pipelineMaker.Load(fileName);
             }
             else if (mode.Equals(DumpConfigMode, StringComparison.CurrentCultureIgnoreCase))

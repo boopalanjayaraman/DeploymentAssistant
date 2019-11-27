@@ -58,6 +58,13 @@ namespace DeploymentAssistant.Executors
             this.Result = new ExecutionResult() { IsSuccess = false, Message = appEx.Message };
         }
 
+        /// <summary>
+        /// internal parameterless constructor for mocking/testing purposes
+        /// </summary>
+        internal AbstractExecutor()
+        {
+
+        }
 
         /// <summary>
         /// Constructor
